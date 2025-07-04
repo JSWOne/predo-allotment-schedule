@@ -1,0 +1,6 @@
+{
+  "invoiceNumber": "[(${input.invoiceNumber})]",
+  "shipmentNumber": "[(${input.shipmentNumber})]",
+  "initiatedBy": "[[${input.initiatedBy}]]"
+}
+

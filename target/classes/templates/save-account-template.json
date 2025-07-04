@@ -1,0 +1,9 @@
+{
+  "identifier": "[(${input.identifier})]",
+  "accountNumber": "[(${input.accountNumber})]",
+  "beneficiaryName": "[(${input.beneficiaryName})]",
+  "bankName": "[(${input.bankName})]",
+  "ifscCode": "[(${input.ifscCode})]",
+  "createdBy": "[(${input.createdBy})]",
+  "type": "[(${input.type})]"
+}

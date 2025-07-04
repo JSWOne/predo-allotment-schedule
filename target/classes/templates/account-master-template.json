@@ -1,0 +1,6 @@
+{
+  "customerUuid": "[(${input.customerUuid})]",
+  "accountNumber": "[(${input.bankAccountNumber})]",
+  "ifscCode": "[(${input.ifscCode})]",
+  "type": "[(${input.type})]"
+}

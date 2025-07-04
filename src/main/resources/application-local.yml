@@ -1,0 +1,28 @@
+spring:
+  cloud:
+    gcp:
+      project-id: jswone-qa-356112
+  datasource:
+    url: jdbc:postgresql://${DB-IP}:5432/${DB-NAME}
+    username: ${DB-USERNAME}
+    password: ${DB-PASSWORD}
+    driver:
+      class:
+        name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL95Dialect
+temporal:
+  server-base-url: ${BASE-URL:localhost:7233}
+  namespace: ${NAMESPACE:test}
+  invoice-rejection-task-queue: ${INVOICE-REJECTION-QUEUE:inv-rejection-task-queue}
+
+external-service:
+  joms:
+    base-url: https://qa-oms.msme.jswone.in/joms/api
+    api-key:  3f9a2b5f-7bd8-4a51-b11f-47b30decd925
+

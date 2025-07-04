@@ -1,0 +1,12 @@
+services:
+  joms:
+    initiate-inv-rejection: /external/v1/shipment/initiate-inv-rejection
+    reject-inv: /external/v1/shipment/reject-invoice
+    inv-correction: /external/v1/shipment/invoice-correction
+    validate-inv-rejection-attributes: /external/v1/shipment/validate-invoice-rejection-attribute
+    check-invoice-posted: /external/v1/customer-order/check-invoice-posted
+    release-block: /internal/v1/customer-order/release-block
+    post-cashback-note: /external/v1/customer-order/post-cashback-note
+    update-order-release-status: /external/v1/customer-order/update-order-release-status
+  connector:
+    test: /test
