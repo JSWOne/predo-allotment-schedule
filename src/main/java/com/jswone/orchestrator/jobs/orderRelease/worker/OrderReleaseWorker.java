@@ -18,8 +18,9 @@ public class OrderReleaseWorker {
   private final WorkerFactory workerFactory;
 
   public OrderReleaseWorker(
-          @Value("${temporal.order-release-task-queue}") String temporalOrderReleaseTaskQueue,
-          OrderReleaseActivityImpl orderReleaseActivity, WorkerFactory workerFactory) {
+      @Value("${temporal.order-release-task-queue}") String temporalOrderReleaseTaskQueue,
+      OrderReleaseActivityImpl orderReleaseActivity,
+      WorkerFactory workerFactory) {
     this.temporalOrderReleaseTaskQueue = temporalOrderReleaseTaskQueue;
     this.orderReleaseActivity = orderReleaseActivity;
     this.workerFactory = workerFactory;

@@ -10,5 +10,5 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InvoicePostedResponse extends JomsApiResponse {
-    private Boolean allInvoicesPosted;
+  private Boolean allInvoicesPosted;
 }

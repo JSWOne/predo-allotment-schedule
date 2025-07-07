@@ -3,7 +3,6 @@ package com.jswone.orchestrator.rest;
 import com.jswone.orchestrator.config.ExternalApi;
 import com.jswone.orchestrator.dto.*;
 import jakarta.annotation.PostConstruct;
-import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
