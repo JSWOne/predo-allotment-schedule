@@ -3,6 +3,7 @@ package com.jswone.orchestrator.jobs.activity;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.jswone.orchestrator.dto.InvoicePostedResponse;
 import com.jswone.orchestrator.dto.JomsApiResponse;
 import com.jswone.orchestrator.dto.OrderReleaseTemporalWorkflowRequest;
 import com.jswone.orchestrator.jobs.orderRelease.activity.OrderReleaseActivityImpl;
