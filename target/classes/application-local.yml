@@ -20,7 +20,6 @@ temporal:
   server-base-url: ${BASE-URL:localhost:7233}
   namespace: ${NAMESPACE:test}
   invoice-rejection-task-queue: ${INVOICE-REJECTION-QUEUE:inv-rejection-task-queue}
-  beneficiary-creation-task-queue: ${BENEFICIARY-CREATION-QUEUE:beneficiary-creation-task-queue}
 
 external-service:
   joms:

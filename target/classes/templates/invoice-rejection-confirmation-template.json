@@ -1,6 +1,0 @@
-{
-  "invoiceNumber": "[(${input.invoiceNumber})]",
-  "updatedInvoiceNumberPostRejection": "[(${input.updatedInvoiceNumberPostRejection})]",
-  "shipmentId": "[(${input.shipmentId})]",
-  "temporalCall": "[[${input.temporalCall != null ? input.temporalCall : true}]]"
-}

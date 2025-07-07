@@ -4,11 +4,11 @@ spring:
   profiles:
     active:  ${PROFILE}
   application:
-    name: orchestrator
+    name: order-release
 server:
   port: 8080
   servlet:
-    context-path: /workflows
+    context-path: /order-release
 http:
   connection:
     read-timeout: 50000

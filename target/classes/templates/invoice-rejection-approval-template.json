@@ -1,5 +1,0 @@
-{
-  "isApproved": "[(${input.isApproved})]",
-  "shipmentId": "[(${input.shipmentId})]",
-  "invoiceNumber": "[(${input.invoiceNumber})]"
-}

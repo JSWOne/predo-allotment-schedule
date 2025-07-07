@@ -1,7 +1,0 @@
-{
-  "invoiceNumber": "[(${input.invoiceNumber})]",
-  "shipmentId": "[(${input.shipmentId})]",
-  "toBeUpdatedInvoiceNumber": "[(${input.toBeUpdatedInvoiceNumber})]",
-  "toBeUpdatedInvoiceDate": "[(${input.toBeUpdatedInvoiceDate})]",
-  "temporalCall": "[[${input.temporalCall != null ? input.temporalCall : true}]]"
-}

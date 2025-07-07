@@ -1,5 +1,6 @@
 package com.jswone.orchestrator.jobs.orderRelease.workflow;
 
+import com.jswone.orchestrator.dto.InvoicePostedResponse;
 import com.jswone.orchestrator.dto.JomsApiResponse;
 import com.jswone.orchestrator.dto.OrderReleaseTemporalWorkflowRequest;
 import com.jswone.orchestrator.jobs.orderRelease.activity.OrderReleaseActivity;

@@ -13,7 +13,7 @@ spring:
         name: org.postgresql.Driver
 temporal:
   server-base-url: ${TEMPORAL-BASE-URL}
-  namespace: ${TEMPORAL-NAMESPACE:test}
+  namespace: ${TEMPORAL-NAMESPACE:default}
   invoice-rejection-task-queue: ${INVOICE-REJECTION-QUEUE:inv-rejection-task-queue}
   order-release-task-queue: ${ORDER-RELEASE-QUEUE:order-release-task-queue}
 

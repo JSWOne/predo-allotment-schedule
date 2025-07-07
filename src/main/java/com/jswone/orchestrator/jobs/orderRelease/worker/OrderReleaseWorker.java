@@ -2,13 +2,11 @@ package com.jswone.orchestrator.jobs.orderRelease.worker;
 
 import com.jswone.orchestrator.jobs.orderRelease.activity.OrderReleaseActivityImpl;
 import com.jswone.orchestrator.jobs.orderRelease.workflow.OrderReleaseWorkflowImpl;
-import io.temporal.client.WorkflowClient;
 import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 @Slf4j

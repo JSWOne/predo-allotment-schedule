@@ -1,17 +1,10 @@
 spring:
   config:
-    import: external-apis.yml
+    import: classpath:external-apis.yml
   profiles:
     active:  ${PROFILE}
   application:
     name: orchestrator
-  cloud:
-    gcp:
-      pubsub:
-        account-master-to-oms: ACCOUNT_MASTER_TO_OMS
-        account-master-to-vendor-master: ACCOUNT_MASTER_TO_VENDOR_MASTER
-        vendor-master-to-account-master: VENDOR_MASTER_TO_ACCOUNT_MASTER
-        oms-to-account-master: OMS_TO_ACCOUNT_MASTER
 server:
   port: 8080
   servlet:

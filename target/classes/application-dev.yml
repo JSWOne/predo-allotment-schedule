@@ -15,7 +15,6 @@ temporal:
   server-base-url: ${TEMPORAL-BASE-URL:34.93.59.150:7233}
   namespace: ${TEMPORAL-NAMESPACE:test}
   invoice-rejection-task-queue: ${INVOICE-REJECTION-QUEUE:inv-rejection-task-queue}
-  beneficiary-creation-task-queue:  ${BENEFICIARY-CREATION-QUEUE:beneficiary-creation-task-queue}
 
 external-service:
   joms:
