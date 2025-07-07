@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.jswone</groupId>
-	<artifactId>orchestrator</artifactId>
+	<artifactId>order-release</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>orchestrator</name>
+	<name>order-release</name>
 	<description>Workflow service </description>
 	<url/>
 	<licenses>

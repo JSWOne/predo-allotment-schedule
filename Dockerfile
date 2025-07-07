@@ -2,7 +2,7 @@ FROM openjdk:17-slim
 
 WORKDIR /app
 
-COPY ../target/orchestrator-0.0.1-SNAPSHOT.jar app.jar
+COPY ../target/order-release-0.0.1-SNAPSHOT.jar app.jar
 
 EXPOSE 8080
 
