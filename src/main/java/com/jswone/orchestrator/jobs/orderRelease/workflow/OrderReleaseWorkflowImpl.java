@@ -8,10 +8,10 @@ import io.temporal.activity.ActivityOptions;
 import io.temporal.common.RetryOptions;
 import io.temporal.workflow.Workflow;
 import java.time.Duration;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 
-@Slf4j
 public class OrderReleaseWorkflowImpl implements OrderReleaseWorkflow {
+  private static final Logger log = Workflow.getLogger(OrderReleaseWorkflow.class);
 
   OrderReleaseActivity loopActivityStub =
       Workflow.newActivityStub(

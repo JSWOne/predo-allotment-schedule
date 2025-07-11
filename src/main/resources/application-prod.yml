@@ -14,7 +14,7 @@ spring:
 temporal:
   server-base-url: ${TEMPORAL-BASE-URL:10.169.1.5:7233}
   namespace: ${TEMPORAL-NAMESPACE:test}
-  invoice-rejection-task-queue: ${INVOICE-REJECTION-QUEUE:inv-rejection-task-queue}
+  order-release-task-queue: ${ORDER-RELEASE-QUEUE:order-release-task-queue}
 
 external-service:
   joms:

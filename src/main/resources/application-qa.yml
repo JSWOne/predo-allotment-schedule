@@ -14,7 +14,6 @@ spring:
 temporal:
   server-base-url: ${TEMPORAL-BASE-URL}
   namespace: ${TEMPORAL-NAMESPACE:test}
-  invoice-rejection-task-queue: ${INVOICE-REJECTION-QUEUE:inv-rejection-task-queue}
   order-release-task-queue: ${ORDER-RELEASE-QUEUE:order-release-task-queue}
 
 external-service:

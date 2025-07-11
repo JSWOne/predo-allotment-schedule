@@ -18,9 +18,6 @@ public class Temporal {
   @Value("${temporal.namespace}")
   private String temporalNameSpace;
 
-  @Value("${temporal.invoice-rejection-task-queue}")
-  private String temporalInvoiceRejectionTaskQueue;
-
   @Bean
   public WorkflowServiceStubs workflowServiceStubs() {
     return WorkflowServiceStubs.newInstance(

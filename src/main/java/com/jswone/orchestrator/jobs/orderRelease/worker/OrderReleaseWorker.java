@@ -5,26 +5,21 @@ import com.jswone.orchestrator.jobs.orderRelease.workflow.OrderReleaseWorkflowIm
 import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
 import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Configuration;
 
+@Configuration
+@RequiredArgsConstructor
 @Slf4j
-@Service
 public class OrderReleaseWorker {
 
+  @Value("${temporal.order-release-task-queue}")
   private final String temporalOrderReleaseTaskQueue;
+
   private final OrderReleaseActivityImpl orderReleaseActivity;
   private final WorkerFactory workerFactory;
-
-  public OrderReleaseWorker(
-      @Value("${temporal.order-release-task-queue}") String temporalOrderReleaseTaskQueue,
-      OrderReleaseActivityImpl orderReleaseActivity,
-      WorkerFactory workerFactory) {
-    this.temporalOrderReleaseTaskQueue = temporalOrderReleaseTaskQueue;
-    this.orderReleaseActivity = orderReleaseActivity;
-    this.workerFactory = workerFactory;
-  }
 
   @PostConstruct
   public void registerWorker() {
