@@ -10,22 +10,18 @@ import io.temporal.api.common.v1.WorkflowExecution;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
 import java.util.Map;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class OrderReleaseServiceImpl implements OrderReleaseService {
 
   private final WorkflowClient workflowClient;
   private final WorkFlowReferenceRepository workflowClientRepository;
-
-  public OrderReleaseServiceImpl(
-      WorkflowClient workflowClient, WorkFlowReferenceRepository workflowClientRepository) {
-    this.workflowClient = workflowClient;
-    this.workflowClientRepository = workflowClientRepository;
-  }
 
   @Value("${temporal.order-release-task-queue}")
   private String temporalOrderReleaseTaskQueue;
