@@ -1,8 +1,0 @@
-services:
-  joms:
-    check-invoice-posted: /external/v1/customer-order/check-invoice-posted
-    release-block: /internal/v1/customer-order/release-block
-    post-cashback-note: /external/v1/customer-order/post-cashback-note
-    update-order-release-status: /external/v1/customer-order/update-order-release-status
-  connector:
-    test: /test
