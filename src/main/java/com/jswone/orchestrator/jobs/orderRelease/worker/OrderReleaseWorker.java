@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Configuration;
 public class OrderReleaseWorker {
 
   @Value("${temporal.order-release-task-queue}")
-  private final String temporalOrderReleaseTaskQueue;
+  private String temporalOrderReleaseTaskQueue;
 
   private final OrderReleaseActivityImpl orderReleaseActivity;
   private final WorkerFactory workerFactory;
