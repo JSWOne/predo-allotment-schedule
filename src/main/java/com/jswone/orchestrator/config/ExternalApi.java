@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "services")
+@ConfigurationProperties(prefix = "")
 public class ExternalApi {
 
   private Map<String, Map<String, String>> services;
