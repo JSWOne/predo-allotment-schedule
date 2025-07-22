@@ -57,11 +57,11 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
     }
 
     OrderReleaseStatusDto updateReleaseBlockStatus =
-            OrderReleaseStatusDto.builder()
-                    .orderNumber(orderReleaseTemporalWorkflowRequest.getOrderNumber())
-                    .releaseBlockStatus("SUCCESSFUL")
-                    .cashbackNoteStatus("CANCELLED")
-                    .build();
+        OrderReleaseStatusDto.builder()
+            .orderNumber(orderReleaseTemporalWorkflowRequest.getOrderNumber())
+            .releaseBlockStatus("SUCCESSFUL")
+            .cashbackNoteStatus("CANCELLED")
+            .build();
 
     jomsApi.updateOrderReleaseStatus(updateReleaseBlockStatus);
 
@@ -97,11 +97,11 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
     }
 
     OrderReleaseStatusDto updateCashbackStatus =
-            OrderReleaseStatusDto.builder()
-                    .orderNumber(orderNumber)
-                    .releaseBlockStatus("SUCCESSFUL")
-                    .cashbackNoteStatus("SUCCESSFUL")
-                    .build();
+        OrderReleaseStatusDto.builder()
+            .orderNumber(orderNumber)
+            .releaseBlockStatus("SUCCESSFUL")
+            .cashbackNoteStatus("SUCCESSFUL")
+            .build();
 
     jomsApi.updateOrderReleaseStatus(updateCashbackStatus);
 
