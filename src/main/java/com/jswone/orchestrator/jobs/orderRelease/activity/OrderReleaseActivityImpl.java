@@ -46,8 +46,7 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
                 .cashbackNoteStatus("CANCELLED")
                 .build();
 
-        JomsApiResponse updateReleaseBlock =
-            jomsApi.updateOrderReleaseStatus(updateReleaseBlockStatus);
+        jomsApi.updateOrderReleaseStatus(updateReleaseBlockStatus);
         log.info(
             "Order release status updated successfully for order: {}",
             updateReleaseBlockStatus.getOrderNumber());
@@ -56,6 +55,15 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
       throw ApplicationFailure.newFailure(
           "Release order block failed", "RELEASE_ORDER_BLOCK_FAILED");
     }
+
+    OrderReleaseStatusDto updateReleaseBlockStatus =
+            OrderReleaseStatusDto.builder()
+                    .orderNumber(orderReleaseTemporalWorkflowRequest.getOrderNumber())
+                    .releaseBlockStatus("SUCCESSFUL")
+                    .cashbackNoteStatus("CANCELLED")
+                    .build();
+
+    jomsApi.updateOrderReleaseStatus(updateReleaseBlockStatus);
 
     log.info("Order release for : {}", orderReleaseTemporalWorkflowRequest.getOrderNumber());
     return response;
@@ -78,7 +86,7 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
                 .cashbackNoteStatus("CANCELLED")
                 .build();
 
-        JomsApiResponse cashbackResponse = jomsApi.updateOrderReleaseStatus(updateCashbackStatus);
+        jomsApi.updateOrderReleaseStatus(updateCashbackStatus);
         log.info(
             "Cashback status updated successfully for order: {}",
             updateCashbackStatus.getOrderNumber());
@@ -87,6 +95,16 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
       throw ApplicationFailure.newFailure(
           "Publishing cashback note failed", "PUBLISH_CASHBACK_NOTE_FAILED");
     }
+
+    OrderReleaseStatusDto updateCashbackStatus =
+            OrderReleaseStatusDto.builder()
+                    .orderNumber(orderNumber)
+                    .releaseBlockStatus("SUCCESSFUL")
+                    .cashbackNoteStatus("SUCCESSFUL")
+                    .build();
+
+    jomsApi.updateOrderReleaseStatus(updateCashbackStatus);
+
     log.info("Cashback release for order : {}", orderNumber);
     return response;
   }
