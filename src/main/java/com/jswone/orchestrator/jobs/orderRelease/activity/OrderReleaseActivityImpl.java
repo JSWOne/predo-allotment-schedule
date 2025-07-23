@@ -42,7 +42,7 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
             OrderReleaseStatusRequest.builder()
                 .orderNumber(orderReleaseTemporalWorkflowRequest.getOrderNumber())
                 .releaseStatus("CANCELLED")
-                .cashbackStatus("CANCELLED")
+                .cashbackStatus("PROCESSED")
                 .build();
 
         jomsApi.updateOrderReleaseStatus(updateReleaseBlockStatus);
@@ -59,7 +59,7 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
         OrderReleaseStatusRequest.builder()
             .orderNumber(orderReleaseTemporalWorkflowRequest.getOrderNumber())
             .releaseStatus("SUCCESSFUL")
-            .cashbackStatus("CANCELLED")
+            .cashbackStatus("PROCESSED")
             .build();
 
     jomsApi.updateOrderReleaseStatus(updateReleaseBlockStatus);
