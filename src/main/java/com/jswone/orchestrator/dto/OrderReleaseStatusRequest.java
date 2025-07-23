@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class OrderReleaseStatusDto {
+public class OrderReleaseStatusRequest {
   private String orderNumber;
-  private String releaseBlockStatus;
-  private String cashbackNoteStatus;
+  private String releaseStatus;
+  private String cashbackStatus;
 }
+

@@ -154,7 +154,7 @@ class OrderReleaseActivityImplTest {
               argThat(
                   status ->
                       status.getOrderNumber().equals("ORD123")
-                          && status.getReleaseBlockStatus().equals("CANCELLED")
+                          && status.getReleaseStatus().equals("CANCELLED")
                           && status.getCashbackNoteStatus().equals("CANCELLED")));
     }
   }
@@ -231,7 +231,7 @@ class OrderReleaseActivityImplTest {
               argThat(
                   status ->
                       status.getOrderNumber().equals(ORDER_NO)
-                          && status.getReleaseBlockStatus().equals("SUCCESSFUL")
+                          && status.getReleaseStatus().equals("SUCCESSFUL")
                           && status.getCashbackNoteStatus().equals("CANCELLED")));
     }
   }

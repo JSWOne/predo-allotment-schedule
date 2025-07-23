@@ -310,7 +310,7 @@ public class JomsApiTest {
 
   @Test
   void testUpdateOrderReleaseStatusSuccessResponse() {
-    OrderReleaseStatusDto orderReleaseStatusDto = new OrderReleaseStatusDto();
+    OrderReleaseStatusRequest orderReleaseStatusRequest = new OrderReleaseStatusRequest();
 
     Map<String, String> jomsServices = new HashMap<>();
     jomsServices.put(
@@ -332,11 +332,11 @@ public class JomsApiTest {
             restTemplate.exchange(
                 ArgumentMatchers.anyString(),
                 ArgumentMatchers.eq(HttpMethod.POST),
-                ArgumentMatchers.<HttpEntity<OrderReleaseStatusDto>>any(),
+                ArgumentMatchers.<HttpEntity<OrderReleaseStatusRequest>>any(),
                 ArgumentMatchers.<ParameterizedTypeReference<Map<String, Object>>>any()))
         .thenReturn(responseEntity);
 
-    JomsApiResponse response = jomsApi.updateOrderReleaseStatus(orderReleaseStatusDto);
+    JomsApiResponse response = jomsApi.updateOrderReleaseStatus(orderReleaseStatusRequest);
 
     assertTrue(response.getIsSuccess());
     assertEquals("Success", response.getMessage());
@@ -344,7 +344,7 @@ public class JomsApiTest {
 
   @Test
   void testUpdateOrderReleaseStatusFailureResponse() {
-    OrderReleaseStatusDto orderReleaseStatusDto = new OrderReleaseStatusDto();
+    OrderReleaseStatusRequest orderReleaseStatusRequest = new OrderReleaseStatusRequest();
     Map<String, String> jomsServices = new HashMap<>();
     jomsServices.put(
         "update-order-release-status", "/external/v1/customer-order/update-order-release-status");
@@ -365,11 +365,11 @@ public class JomsApiTest {
             restTemplate.exchange(
                 ArgumentMatchers.anyString(),
                 ArgumentMatchers.eq(HttpMethod.POST),
-                ArgumentMatchers.<HttpEntity<OrderReleaseStatusDto>>any(),
+                ArgumentMatchers.<HttpEntity<OrderReleaseStatusRequest>>any(),
                 ArgumentMatchers.<ParameterizedTypeReference<Map<String, Object>>>any()))
         .thenReturn(responseEntity);
 
-    JomsApiResponse response = jomsApi.updateOrderReleaseStatus(orderReleaseStatusDto);
+    JomsApiResponse response = jomsApi.updateOrderReleaseStatus(orderReleaseStatusRequest);
 
     assertFalse(response.getIsSuccess());
     assertEquals("Update failed", response.getMessage());
@@ -377,7 +377,7 @@ public class JomsApiTest {
 
   @Test
   void testUpdateOrderReleaseStatusException() {
-    OrderReleaseStatusDto orderReleaseStatusDto = new OrderReleaseStatusDto();
+    OrderReleaseStatusRequest orderReleaseStatusRequest = new OrderReleaseStatusRequest();
     Map<String, String> jomsServices = new HashMap<>();
     jomsServices.put(
         "update-order-release-status", "/external/v1/customer-order/update-order-release-status");
@@ -393,12 +393,12 @@ public class JomsApiTest {
             restTemplate.exchange(
                 ArgumentMatchers.anyString(),
                 ArgumentMatchers.eq(HttpMethod.POST),
-                ArgumentMatchers.<HttpEntity<OrderReleaseStatusDto>>any(),
+                ArgumentMatchers.<HttpEntity<OrderReleaseStatusRequest>>any(),
                 ArgumentMatchers.<ParameterizedTypeReference<Map<String, Object>>>any()))
         .thenReturn(responseEntity);
 
     assertThrows(
-        NullPointerException.class, () -> jomsApi.updateOrderReleaseStatus(orderReleaseStatusDto));
+        NullPointerException.class, () -> jomsApi.updateOrderReleaseStatus(orderReleaseStatusRequest));
   }
 
   @Test

@@ -97,19 +97,18 @@ public class JomsApi {
     return new JomsApiResponse(isSuccess, message);
   }
 
-  public JomsApiResponse updateOrderReleaseStatus(OrderReleaseStatusDto orderReleaseStatusDto) {
+  public JomsApiResponse updateOrderReleaseStatus(OrderReleaseStatusRequest orderReleaseStatusRequest) {
     String url =
-        jomsBaseUrl.concat(
-            externalApi.getServices().get("joms").get("update-order-release-status"));
+        jomsBaseUrl.concat(externalApi.getServices().get("joms").get("update-order-release-status"));
 
-    HttpEntity<OrderReleaseStatusDto> httpEntity =
-        new HttpEntity<>(orderReleaseStatusDto, this.getHeaders());
+    HttpEntity<OrderReleaseStatusRequest> httpEntity =
+        new HttpEntity<>(orderReleaseStatusRequest, this.getHeaders());
     ResponseEntity<Map<String, Object>> response =
-        restTemplate.exchange(
-            url,
-            HttpMethod.POST,
-            httpEntity,
-            new ParameterizedTypeReference<Map<String, Object>>() {});
+            restTemplate.exchange(
+                    url,
+                    HttpMethod.POST,
+                    httpEntity,
+                    new ParameterizedTypeReference<Map<String, Object>>() {});
 
     Map<String, Object> body = response.getBody();
     Boolean isSuccess = (Boolean) body.get("isSuccess");

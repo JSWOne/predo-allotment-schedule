@@ -36,14 +36,13 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
     int attempt = context.getInfo().getAttempt();
 
     JomsApiResponse response = jomsApi.initiateReleaseOrder(orderReleaseTemporalWorkflowRequest);
-
     if (!response.getIsSuccess()) {
       if (attempt >= 5) {
-        OrderReleaseStatusDto updateReleaseBlockStatus =
-            OrderReleaseStatusDto.builder()
+        OrderReleaseStatusRequest updateReleaseBlockStatus =
+            OrderReleaseStatusRequest.builder()
                 .orderNumber(orderReleaseTemporalWorkflowRequest.getOrderNumber())
-                .releaseBlockStatus("CANCELLED")
-                .cashbackNoteStatus("CANCELLED")
+                .releaseStatus("CANCELLED")
+                .cashbackStatus("CANCELLED")
                 .build();
 
         jomsApi.updateOrderReleaseStatus(updateReleaseBlockStatus);
@@ -56,11 +55,11 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
           "Release order block failed", "RELEASE_ORDER_BLOCK_FAILED");
     }
 
-    OrderReleaseStatusDto updateReleaseBlockStatus =
-        OrderReleaseStatusDto.builder()
+    OrderReleaseStatusRequest updateReleaseBlockStatus =
+        OrderReleaseStatusRequest.builder()
             .orderNumber(orderReleaseTemporalWorkflowRequest.getOrderNumber())
-            .releaseBlockStatus("SUCCESSFUL")
-            .cashbackNoteStatus("CANCELLED")
+            .releaseStatus("SUCCESSFUL")
+            .cashbackStatus("CANCELLED")
             .build();
 
     jomsApi.updateOrderReleaseStatus(updateReleaseBlockStatus);
@@ -79,11 +78,11 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
 
     if (!response.getIsSuccess()) {
       if (attempt >= 5) {
-        OrderReleaseStatusDto updateCashbackStatus =
-            OrderReleaseStatusDto.builder()
+        OrderReleaseStatusRequest updateCashbackStatus =
+            OrderReleaseStatusRequest.builder()
                 .orderNumber(orderNumber)
-                .releaseBlockStatus("SUCCESSFUL")
-                .cashbackNoteStatus("CANCELLED")
+                .releaseStatus("SUCCESSFUL")
+                .cashbackStatus("CANCELLED")
                 .build();
 
         jomsApi.updateOrderReleaseStatus(updateCashbackStatus);
@@ -96,11 +95,11 @@ public class OrderReleaseActivityImpl implements OrderReleaseActivity {
           "Publishing cashback note failed", "PUBLISH_CASHBACK_NOTE_FAILED");
     }
 
-    OrderReleaseStatusDto updateCashbackStatus =
-        OrderReleaseStatusDto.builder()
+    OrderReleaseStatusRequest updateCashbackStatus =
+        OrderReleaseStatusRequest.builder()
             .orderNumber(orderNumber)
-            .releaseBlockStatus("SUCCESSFUL")
-            .cashbackNoteStatus("SUCCESSFUL")
+            .releaseStatus("SUCCESSFUL")
+            .cashbackStatus("SUCCESSFUL")
             .build();
 
     jomsApi.updateOrderReleaseStatus(updateCashbackStatus);
