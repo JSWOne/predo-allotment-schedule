@@ -398,7 +398,8 @@ public class JomsApiTest {
         .thenReturn(responseEntity);
 
     assertThrows(
-        NullPointerException.class, () -> jomsApi.updateOrderReleaseStatus(orderReleaseStatusRequest));
+        NullPointerException.class,
+        () -> jomsApi.updateOrderReleaseStatus(orderReleaseStatusRequest));
   }
 
   @Test

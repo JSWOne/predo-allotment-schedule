@@ -14,4 +14,3 @@ public class OrderReleaseStatusRequest {
   private String releaseStatus;
   private String cashbackStatus;
 }
-

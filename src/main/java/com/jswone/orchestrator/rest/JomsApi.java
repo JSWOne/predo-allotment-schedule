@@ -5,6 +5,7 @@ import com.jswone.orchestrator.dto.*;
 import jakarta.annotation.PostConstruct;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
@@ -16,8 +17,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Slf4j
 public class JomsApi {
 
+  @Value("${external-service.joms.base-url}")
   private String jomsBaseUrl;
+
+  @Value("${external-service.joms.api-key}")
   private String jomsApiKey;
+
   private final Environment environment;
   private final RestTemplate restTemplate;
   private final ExternalApi externalApi;
@@ -97,18 +102,20 @@ public class JomsApi {
     return new JomsApiResponse(isSuccess, message);
   }
 
-  public JomsApiResponse updateOrderReleaseStatus(OrderReleaseStatusRequest orderReleaseStatusRequest) {
+  public JomsApiResponse updateOrderReleaseStatus(
+      OrderReleaseStatusRequest orderReleaseStatusRequest) {
     String url =
-        jomsBaseUrl.concat(externalApi.getServices().get("joms").get("update-order-release-status"));
+        jomsBaseUrl.concat(
+            externalApi.getServices().get("joms").get("update-order-release-status"));
 
     HttpEntity<OrderReleaseStatusRequest> httpEntity =
         new HttpEntity<>(orderReleaseStatusRequest, this.getHeaders());
     ResponseEntity<Map<String, Object>> response =
-            restTemplate.exchange(
-                    url,
-                    HttpMethod.POST,
-                    httpEntity,
-                    new ParameterizedTypeReference<Map<String, Object>>() {});
+        restTemplate.exchange(
+            url,
+            HttpMethod.POST,
+            httpEntity,
+            new ParameterizedTypeReference<Map<String, Object>>() {});
 
     Map<String, Object> body = response.getBody();
     Boolean isSuccess = (Boolean) body.get("isSuccess");
