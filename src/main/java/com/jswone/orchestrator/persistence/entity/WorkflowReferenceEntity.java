@@ -1,4 +1,4 @@
-package com.jswone.orchestrator.entity;
+package com.jswone.orchestrator.persistence.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;

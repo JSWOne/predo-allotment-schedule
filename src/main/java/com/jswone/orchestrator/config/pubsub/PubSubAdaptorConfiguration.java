@@ -2,8 +2,8 @@ package com.jswone.orchestrator.config.pubsub;
 
 import com.google.cloud.spring.pubsub.core.PubSubTemplate;
 import com.google.cloud.spring.pubsub.integration.outbound.PubSubMessageHandler;
-import com.jswone.orchestrator.constants.PubSubChannels;
-import com.jswone.orchestrator.enums.TopicName;
+import com.jswone.orchestrator.dto.constants.PubSubChannels;
+import com.jswone.orchestrator.dto.enums.TopicName;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

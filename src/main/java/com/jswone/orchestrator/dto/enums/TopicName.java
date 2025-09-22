@@ -1,4 +1,4 @@
-package com.jswone.orchestrator.enums;
+package com.jswone.orchestrator.dto.enums;
 
 public enum TopicName {
   ORCHESTRATOR_TO_NOTIFICATION("projects/%1$s/topics/%2$s", "projects/%1$s/subscriptions/%2$s-sub");

@@ -1,4 +1,4 @@
-package com.jswone.orchestrator.constants;
+package com.jswone.orchestrator.dto.constants;
 
 public class ServiceConstants {
   public static final String AUTHORIZATION = "Authorization";

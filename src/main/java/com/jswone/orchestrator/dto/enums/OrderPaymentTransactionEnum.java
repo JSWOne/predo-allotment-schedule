@@ -1,4 +1,4 @@
-package com.jswone.orchestrator.enums;
+package com.jswone.orchestrator.dto.enums;
 
 public enum OrderPaymentTransactionEnum {
   NODAL,

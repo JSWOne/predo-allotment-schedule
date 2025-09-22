@@ -2,10 +2,10 @@ package com.jswone.orchestrator.jobs.orderRelease.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jswone.orchestrator.dto.OrderReleaseTemporalWorkflowRequest;
-import com.jswone.orchestrator.entity.WorkflowReferenceEntity;
-import com.jswone.orchestrator.enums.WorkflowActionEnum;
+import com.jswone.orchestrator.dto.enums.WorkflowActionEnum;
 import com.jswone.orchestrator.jobs.orderRelease.workflow.OrderReleaseWorkflow;
-import com.jswone.orchestrator.repository.WorkFlowReferenceRepository;
+import com.jswone.orchestrator.persistence.entity.WorkflowReferenceEntity;
+import com.jswone.orchestrator.persistence.repository.WorkFlowReferenceRepository;
 import io.temporal.api.common.v1.WorkflowExecution;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;

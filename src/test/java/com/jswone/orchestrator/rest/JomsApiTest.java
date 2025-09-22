@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import com.jswone.orchestrator.config.ExternalApi;
 import com.jswone.orchestrator.dto.*;
+import com.jswone.orchestrator.http.rest.JomsApi;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;

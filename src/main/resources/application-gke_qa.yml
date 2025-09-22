@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    gcp:
+      project-id: ${GCP-PROJECT-ID:jswone-qa-service}
+      pubsub:
+        orchestrator-to-notification: ${NOTIFICATION-PUBSUB-TOPIC:notification-request-queue}
+  datasource:
+    url: jdbc:postgresql://${ORCHESTRATOR-DB-IP}:5432/orchestrator
+    username: ${ORCHESTRATOR-DB-USERNAME}
+    password: ${ORCHESTRATOR-DB-PWD}
+    driver:
+      class:
+        name: org.postgresql.Driver
+temporal:
+  server-base-url: ${TEMPORAL-BASE-URL}
+  namespace: ${TEMPORAL-NAMESPACE:test}
+  order-release-task-queue: ${ORDER-RELEASE-QUEUE:order-release-task-queue}
+
+external-service:
+  joms:
+    base-url: ${JOMS-BASE-URL:https://qapreprod-oms.onejswmsme.in/joms/api}
+    api-key:  ${JOMS-API-KEY:3f9a2b5f-7bd8-4a51-b11f-47b30decd925}
+

@@ -1,7 +1,7 @@
 package com.jswone.orchestrator.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.jswone.orchestrator.enums.OrderPaymentTransactionEnum;
+import com.jswone.orchestrator.dto.enums.OrderPaymentTransactionEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

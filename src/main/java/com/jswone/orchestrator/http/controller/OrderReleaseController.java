@@ -1,4 +1,4 @@
-package com.jswone.orchestrator.controller;
+package com.jswone.orchestrator.http.controller;
 
 import com.jswone.orchestrator.dto.OrchestratorResponse;
 import com.jswone.orchestrator.dto.OrderReleaseTemporalWorkflowRequest;

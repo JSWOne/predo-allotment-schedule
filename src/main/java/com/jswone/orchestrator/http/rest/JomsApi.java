@@ -1,4 +1,4 @@
-package com.jswone.orchestrator.rest;
+package com.jswone.orchestrator.http.rest;
 
 import com.jswone.orchestrator.config.ExternalApi;
 import com.jswone.orchestrator.dto.*;

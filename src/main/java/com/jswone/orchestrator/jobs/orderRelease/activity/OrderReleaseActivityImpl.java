@@ -1,7 +1,7 @@
 package com.jswone.orchestrator.jobs.orderRelease.activity;
 
 import com.jswone.orchestrator.dto.*;
-import com.jswone.orchestrator.rest.JomsApi;
+import com.jswone.orchestrator.http.rest.JomsApi;
 import io.temporal.activity.Activity;
 import io.temporal.activity.ActivityExecutionContext;
 import io.temporal.failure.ApplicationFailure;

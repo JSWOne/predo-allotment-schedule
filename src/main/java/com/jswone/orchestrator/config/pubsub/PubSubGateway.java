@@ -1,7 +1,7 @@
 package com.jswone.orchestrator.config.pubsub;
 
-import com.jswone.orchestrator.constants.PubSubChannels;
 import com.jswone.orchestrator.dto.PubSubRequest;
+import com.jswone.orchestrator.dto.constants.PubSubChannels;
 import org.springframework.integration.annotation.Gateway;
 import org.springframework.integration.annotation.MessagingGateway;
 import org.springframework.messaging.Message;

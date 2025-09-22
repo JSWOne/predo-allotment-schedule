@@ -1,8 +1,8 @@
 package com.jswone.orchestrator.service.impl;
 
 import com.jswone.orchestrator.config.pubsub.PubSubGateway;
-import com.jswone.orchestrator.constants.ServiceConstants;
 import com.jswone.orchestrator.dto.PubSubRequest;
+import com.jswone.orchestrator.dto.constants.ServiceConstants;
 import com.jswone.orchestrator.service.PubSubPush;
 import java.util.HashMap;
 import java.util.Map;

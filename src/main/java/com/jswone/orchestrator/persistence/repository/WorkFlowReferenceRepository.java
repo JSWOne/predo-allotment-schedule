@@ -1,6 +1,6 @@
-package com.jswone.orchestrator.repository;
+package com.jswone.orchestrator.persistence.repository;
 
-import com.jswone.orchestrator.entity.WorkflowReferenceEntity;
+import com.jswone.orchestrator.persistence.entity.WorkflowReferenceEntity;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
