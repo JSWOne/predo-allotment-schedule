@@ -13,11 +13,11 @@ spring:
         name: org.postgresql.Driver
 temporal:
   server-base-url: ${TEMPORAL-BASE-URL}
-  namespace: ${TEMPORAL-NAMESPACE:test}
+  namespace: ${TEMPORAL-NAMESPACE:order_release}
   order-release-task-queue: ${ORDER-RELEASE-QUEUE:order-release-task-queue}
 
 external-service:
   joms:
-    base-url: ${JOMS-BASE-URL:https://qapreprod-oms.onejswmsme.in/joms/api}
+    base-url: ${JOMS-BASE-URL:https://next.qa.jswone.in/joms/api}
     api-key:  ${JOMS-API-KEY:3f9a2b5f-7bd8-4a51-b11f-47b30decd925}
 
