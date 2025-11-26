@@ -1,4 +1,6 @@
 services:
+  ledger:
+    fetch-notification-gstin: /ledger-service/api/internal/v1/fetch-gstin-for-notification
   joms:
     check-invoice-posted: /external/v1/customer-order/check-invoice-posted
     release-block: /internal/v1/customer-order/release-block

@@ -4,11 +4,11 @@ spring:
   profiles:
     active:  ${PROFILE}
   application:
-    name: order-release
+    name: due-notification-workflow
 server:
   port: 8080
   servlet:
-    context-path: /order-release
+    context-path: /due-notification-workflow
 http:
   connection:
     read-timeout: 50000

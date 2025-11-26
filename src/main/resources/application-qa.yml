@@ -13,10 +13,14 @@ spring:
         name: org.postgresql.Driver
 temporal:
   server-base-url: ${TEMPORAL-BASE-URL}
-  namespace: ${TEMPORAL-NAMESPACE:order_release}
-  order-release-task-queue: ${ORDER-RELEASE-QUEUE:order-release-task-queue}
+  namespace: ${TEMPORAL-NAMESPACE:default}
+  due-notification-task-queue: ${DUE-NOTIFICATION-QUEUE:due-notification-task-queue}
 
 external-service:
+  ledger:
+    base-url: ${LEDGER-BASE-URL:}
+    client-user: ${LEDGER-SERVICE-CLIENT-USER:LSCLI4}
+    client-secret: ${LEDGER-SERVICE-SECRET:LedgerService.SF.$2a$12$BAkN3bUGsEv2X354pwQkHOWBfUPH/taQWkigtp7pWm4QFJvco3dae}
   joms:
     base-url: ${JOMS-BASE-URL:https://next.qa.jswone.in/joms/api}
     api-key:  ${JOMS-API-KEY:3f9a2b5f-7bd8-4a51-b11f-47b30decd925}

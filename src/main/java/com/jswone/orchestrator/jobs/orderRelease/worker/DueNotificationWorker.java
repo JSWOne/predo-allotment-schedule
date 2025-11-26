@@ -1,7 +1,7 @@
 package com.jswone.orchestrator.jobs.orderRelease.worker;
 
-import com.jswone.orchestrator.jobs.orderRelease.activity.OrderReleaseActivityImpl;
-import com.jswone.orchestrator.jobs.orderRelease.workflow.OrderReleaseWorkflowImpl;
+import com.jswone.orchestrator.jobs.orderRelease.activity.DueNotificationActivityImpl;
+import com.jswone.orchestrator.jobs.orderRelease.workflow.DueNotificationWorkflowImpl;
 import io.temporal.worker.Worker;
 import io.temporal.worker.WorkerFactory;
 import jakarta.annotation.PostConstruct;
@@ -13,20 +13,20 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
-public class OrderReleaseWorker {
+public class DueNotificationWorker {
 
-  @Value("${temporal.order-release-task-queue}")
+  @Value("${temporal.due-notification-task-queue}")
   private String temporalOrderReleaseTaskQueue;
 
-  private final OrderReleaseActivityImpl orderReleaseActivity;
+  private final DueNotificationActivityImpl dueNotificationActivity;
   private final WorkerFactory workerFactory;
 
   @PostConstruct
   public void registerWorker() {
     Worker worker = workerFactory.newWorker(temporalOrderReleaseTaskQueue);
 
-    worker.registerWorkflowImplementationTypes(OrderReleaseWorkflowImpl.class);
-    worker.registerActivitiesImplementations(orderReleaseActivity);
+    worker.registerWorkflowImplementationTypes(DueNotificationWorkflowImpl.class);
+    worker.registerActivitiesImplementations(dueNotificationActivity);
 
     try {
       workerFactory.start();
