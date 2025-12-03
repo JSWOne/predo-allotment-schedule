@@ -58,6 +58,10 @@ public class LedgerApi {
 
   public LedgerGstinResponse fetchGstinsForDueNotification(
       NotificationEventType notificationEventType) {
+    log.info(
+        "Inside ledgerAPI for call ledger service for gstins list for notification {}",
+        notificationEventType);
+
     String baseUrl =
         ledgerBaseUrl.concat(
             externalApi.getServices().get("ledger").get("fetch-notification-gstin"));
@@ -69,5 +73,52 @@ public class LedgerApi {
     HttpEntity<Void> httpEntity = new HttpEntity<>(this.getHeaders());
     String url = builder.toUriString();
     return this.httpCall(url, HttpMethod.GET, httpEntity, LedgerGstinResponse.class);
+  }
+
+  public GstinNotificationDataResponse fetchGstinNotificationData(
+      NotificationEventType notificationEventType, String gstin) {
+    log.info("Inside ledgerAPI for call ledger service for notification data for gstin {}", gstin);
+    String baseUrl =
+        ledgerBaseUrl.concat(
+            externalApi.getServices().get("ledger").get("fetch-gstin-notification-data"));
+
+    UriComponentsBuilder builder =
+        UriComponentsBuilder.fromHttpUrl(baseUrl)
+            .queryParam("notificationEventType", notificationEventType)
+            .queryParam("gstin", gstin);
+
+    HttpEntity<Void> httpEntity = new HttpEntity<>(this.getHeaders());
+    String url = builder.toUriString();
+    return this.httpCall(url, HttpMethod.GET, httpEntity, GstinNotificationDataResponse.class);
+  }
+
+  public PostNotificationDataResponse postNotificationDataToLedger(
+      PostNotificationDataRequest postNotificationDataRequest) {
+    log.info("Calling ledger service to post  notification data");
+    String baseUrl =
+        ledgerBaseUrl.concat(
+            externalApi.getServices().get("ledger").get("post-due-notification-data"));
+
+    UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl);
+
+    HttpEntity<PostNotificationDataRequest> httpEntity =
+        new HttpEntity<>(postNotificationDataRequest, this.getHeaders());
+    String url = builder.toUriString();
+    return this.httpCall(url, HttpMethod.POST, httpEntity, PostNotificationDataResponse.class);
+  }
+
+  public CSVDataForDueNotificationResponse fetchCSVDataForDueNotification(
+      CSVDataForDueNotificationRequest csvDataForDueNotificationRequest) {
+    log.info("Calling ledger service to fetchCSVDataForDueNotification");
+    String baseUrl =
+        ledgerBaseUrl.concat(
+            externalApi.getServices().get("ledger").get("fetch-csv-notification-data"));
+
+    UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(baseUrl);
+
+    HttpEntity<CSVDataForDueNotificationRequest> httpEntity =
+        new HttpEntity<>(csvDataForDueNotificationRequest, this.getHeaders());
+    String url = builder.toUriString();
+    return this.httpCall(url, HttpMethod.POST, httpEntity, CSVDataForDueNotificationResponse.class);
   }
 }

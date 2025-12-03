@@ -11,4 +11,7 @@ public interface PubSubGateway {
 
   @Gateway(requestChannel = PubSubChannels.ORCHESTRATOR_TO_NOTIFICATION_SERVICE)
   void sendMessageFoNotificationService(Message<PubSubRequest> message);
+
+  @Gateway(requestChannel = PubSubChannels.ORCHESTRATOR_TO_NOTIFICATION_SERVICE)
+  <T> void sendMessageToNotificationService(Message<T> payload);
 }
