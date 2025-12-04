@@ -1,12 +1,14 @@
 package com.jswone.orchestrator.jobs.orderRelease.workflow;
 
-import com.jswone.orchestrator.dto.GstinNotificationDataResponse;
+import com.jswone.orchestrator.dto.ChildWorkflowResult;
 import com.jswone.orchestrator.dto.OrchestratorResponse;
 import com.jswone.orchestrator.dto.PaymentNotificationSchedulerData;
 import com.jswone.orchestrator.dto.enums.NotificationEventType;
 import com.jswone.orchestrator.jobs.orderRelease.activity.DueNotificationActivity;
 import io.temporal.activity.ActivityOptions;
 import io.temporal.common.RetryOptions;
+import io.temporal.workflow.Async;
+import io.temporal.workflow.Promise;
 import io.temporal.workflow.Workflow;
 import java.time.Duration;
 import java.util.HashMap;
@@ -32,7 +34,7 @@ public class DueNotificationWorkflowImpl implements DueNotificationWorkflow {
                       .build())
               .build());
 
-  @Override
+  /*@Override
   public OrchestratorResponse initiateOverDueJob(NotificationEventType notificationEventType) {
     log.info("Initiating due payment due notification for type {}", notificationEventType);
     OrchestratorResponse response = OrchestratorResponse.builder().isSuccess(Boolean.TRUE).build();
@@ -107,5 +109,72 @@ public class DueNotificationWorkflowImpl implements DueNotificationWorkflow {
       return response;
     }
     return response;
+  }*/
+
+  @Override
+  public OrchestratorResponse initiateOverDueJob(NotificationEventType notificationEventType) {
+
+    OrchestratorResponse response = OrchestratorResponse.builder().isSuccess(true).build();
+
+    try {
+      List<String> gstinsList = activity.fetchGstinsForNotification(notificationEventType);
+
+      if (gstinsList.isEmpty()) {
+        response.setIsSuccess(false);
+        response.setMessage("No gstins fetched for Notification type " + notificationEventType);
+        return response;
+      }
+
+      Map<String, String> successData = new HashMap<>();
+      Map<String, String> errorData = new HashMap<>();
+
+      // ============================
+      // 🚀 PARALLEL CHILD WORKFLOWS
+      // ============================
+
+      List<Promise<ChildWorkflowResult>> promises =
+          gstinsList.stream()
+              .map(
+                  gstin -> {
+                    GstinNotificationChildWorkflow child =
+                        Workflow.newChildWorkflowStub(GstinNotificationChildWorkflow.class);
+                    return Async.function(child::processGstin, notificationEventType, gstin);
+                  })
+              .toList();
+
+      // Wait for all child results
+      for (Promise<ChildWorkflowResult> p : promises) {
+        ChildWorkflowResult r = p.get();
+
+        if (r.isSuccess()) {
+          successData.put(r.getGstin(), r.getEventId());
+        } else {
+          errorData.put(r.getGstin(), r.getError());
+        }
+      }
+
+      // Continue original logic
+      activity.storeNotificationDataInDB(notificationEventType, successData, errorData, gstinsList);
+
+      activity.sendTeamsNotification(
+          PaymentNotificationSchedulerData.builder()
+              .triggeredGstin(successData)
+              .errorData(errorData)
+              .build(),
+          notificationEventType);
+
+      byte[] csvData =
+          activity.fetchCSVDataForSchedulerNotification(
+              notificationEventType, errorData, successData);
+
+      activity.sendPaymentDueNotificationReportEmail(csvData);
+
+      return response;
+
+    } catch (Exception e) {
+      response.setIsSuccess(false);
+      response.setMessage(e.toString());
+      return response;
+    }
   }
 }
