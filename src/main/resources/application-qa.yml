@@ -12,8 +12,8 @@ spring:
       class:
         name: org.postgresql.Driver
 temporal:
-  server-base-url: ${TEMPORAL-BASE-URL}
-  namespace: ${TEMPORAL-NAMESPACE}
+  server-base-url: ${TEMPORAL-BASE-URL:}
+  namespace: ${TEMPORAL-NAMESPACE:due-payments-notification}
   due-notification-task-queue: ${DUE-NOTIFICATION-QUEUE:due-notification-task-queue}
 
 external-service:

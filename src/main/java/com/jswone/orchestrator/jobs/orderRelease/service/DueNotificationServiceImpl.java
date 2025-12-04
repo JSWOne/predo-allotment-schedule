@@ -57,7 +57,7 @@ public class DueNotificationServiceImpl implements DueNotificationService {
         WorkflowReferenceEntity.builder()
             .referenceNo(LocalDateTime.now().toString())
             .workflowId(workflowId)
-            .type(WorkflowActionEnum.OVER_DUE_NOTIFICATION.name())
+            .type(WorkflowActionEnum.DUE_PAYMENT_NOTIFICATION.name())
             .build();
     workflowClientRepository.save(workflowReferenceEntity);
 
