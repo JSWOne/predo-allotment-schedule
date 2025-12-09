@@ -1,4 +1,4 @@
-FROM openjdk:17-slim
+FROM amazoncorretto:17
 
 WORKDIR /app
 
