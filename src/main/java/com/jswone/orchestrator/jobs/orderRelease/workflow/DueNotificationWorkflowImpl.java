@@ -5,6 +5,7 @@ import com.jswone.orchestrator.dto.OrchestratorResponse;
 import com.jswone.orchestrator.dto.PaymentNotificationSchedulerData;
 import com.jswone.orchestrator.dto.enums.NotificationEventType;
 import com.jswone.orchestrator.jobs.orderRelease.activity.DueNotificationActivity;
+import com.jswone.orchestrator.jobs.orderRelease.activity.DueNotificationChildActivity;
 import io.temporal.activity.ActivityOptions;
 import io.temporal.common.RetryOptions;
 import io.temporal.workflow.Async;
@@ -22,6 +23,21 @@ public class DueNotificationWorkflowImpl implements DueNotificationWorkflow {
   private final DueNotificationActivity activity =
       Workflow.newActivityStub(
           DueNotificationActivity.class,
+          ActivityOptions.newBuilder()
+              .setStartToCloseTimeout(Duration.ofSeconds(30))
+              .setScheduleToStartTimeout(Duration.ofMinutes(2))
+              .setScheduleToCloseTimeout(Duration.ofMinutes(3))
+              .setRetryOptions(
+                  RetryOptions.newBuilder()
+                      .setInitialInterval(Duration.ofSeconds(2)) // wait 2s before first retry
+                      .setBackoffCoefficient(2) // exponential backoff (2x)
+                      .setMaximumAttempts(3) //  try up to 3 times
+                      .build())
+              .build());
+
+  private final DueNotificationChildActivity childActivity =
+      Workflow.newActivityStub(
+          DueNotificationChildActivity.class,
           ActivityOptions.newBuilder()
               .setStartToCloseTimeout(Duration.ofSeconds(30))
               .setScheduleToStartTimeout(Duration.ofMinutes(2))

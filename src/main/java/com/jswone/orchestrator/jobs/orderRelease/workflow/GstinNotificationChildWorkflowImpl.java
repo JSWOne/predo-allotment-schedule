@@ -3,22 +3,23 @@ package com.jswone.orchestrator.jobs.orderRelease.workflow;
 import com.jswone.orchestrator.dto.ChildWorkflowResult;
 import com.jswone.orchestrator.dto.GstinNotificationDataResponse;
 import com.jswone.orchestrator.dto.enums.NotificationEventType;
-import com.jswone.orchestrator.jobs.orderRelease.activity.DueNotificationActivity;
+import com.jswone.orchestrator.jobs.orderRelease.activity.DueNotificationChildActivity;
 import io.temporal.activity.ActivityOptions;
 import io.temporal.workflow.Workflow;
 import java.time.Duration;
 
 public class GstinNotificationChildWorkflowImpl implements GstinNotificationChildWorkflow {
-  private final DueNotificationActivity activity =
+  private final DueNotificationChildActivity childActivity =
       Workflow.newActivityStub(
-          DueNotificationActivity.class,
+          DueNotificationChildActivity.class,
           ActivityOptions.newBuilder().setStartToCloseTimeout(Duration.ofMinutes(2)).build());
 
   @Override
   public ChildWorkflowResult processGstin(NotificationEventType type, String gstin) {
 
     try {
-      GstinNotificationDataResponse notification = activity.fetchGstinNotificationData(type, gstin);
+      GstinNotificationDataResponse notification =
+          childActivity.fetchGstinNotificationData(type, gstin);
 
       if (!notification.isSuccess()) {
         return ChildWorkflowResult.builder()
@@ -28,7 +29,7 @@ public class GstinNotificationChildWorkflowImpl implements GstinNotificationChil
             .build();
       }
 
-      activity.sendNotificationToGstin(notification.getData(), gstin);
+      childActivity.sendNotificationToGstin(notification.getData(), gstin);
 
       String eventId =
           notification
