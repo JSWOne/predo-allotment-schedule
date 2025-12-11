@@ -1,6 +1,7 @@
 package com.jswone.orchestrator.jobs.orderRelease.workflow;
 
 import com.jswone.orchestrator.dto.ChildWorkflowResult;
+import com.jswone.orchestrator.dto.GstinNotificationDataResponse;
 import com.jswone.orchestrator.dto.OrchestratorResponse;
 import com.jswone.orchestrator.dto.PaymentNotificationSchedulerData;
 import com.jswone.orchestrator.dto.enums.NotificationEventType;
@@ -144,11 +145,7 @@ public class DueNotificationWorkflowImpl implements DueNotificationWorkflow {
       Map<String, String> successData = new HashMap<>();
       Map<String, String> errorData = new HashMap<>();
 
-      // ============================
-      // 🚀 PARALLEL CHILD WORKFLOWS
-      // ============================
-
-      List<Promise<ChildWorkflowResult>> promises =
+      /*List<Promise<ChildWorkflowResult>> promises =
           gstinsList.stream()
               .map(
                   gstin -> {
@@ -167,8 +164,37 @@ public class DueNotificationWorkflowImpl implements DueNotificationWorkflow {
         } else {
           errorData.put(r.getGstin(), r.getError());
         }
-      }
+      }*/
+      gstinsList.forEach(
+          gstin -> {
+            try {
+              log.info(
+                  "Initiating {} payments notification job for gstin {}",
+                  notificationEventType,
+                  gstin);
+              GstinNotificationDataResponse notification =
+                  childActivity.fetchGstinNotificationData(notificationEventType, gstin);
 
+              if (!notification.isSuccess()) {
+                log.info("Unable to fetch notification data {}", gstin);
+                errorData.put(gstin, notification.getErrorMessage());
+              } else {
+                log.info(
+                    "Sending notification for gstin {} for notification {}", gstin, notification);
+                childActivity.sendNotificationToGstin(notification.getData(), gstin);
+                successData.put(
+                    gstin,
+                    notification
+                        .getData()
+                        .getLedgerDueNotificationDetails()
+                        .getNotificationPaymentDueOtherData()
+                        .getEventId());
+              }
+            } catch (Exception e) {
+              log.info("Exception occurred in triggering notification for gstin {}", gstin);
+              errorData.put(gstin, e.getMessage());
+            }
+          });
       // Continue original logic
       activity.storeNotificationDataInDB(notificationEventType, successData, errorData, gstinsList);
 

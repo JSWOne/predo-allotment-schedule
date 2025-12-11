@@ -89,7 +89,9 @@ public class LedgerApi {
 
     HttpEntity<Void> httpEntity = new HttpEntity<>(this.getHeaders());
     String url = builder.toUriString();
-    return this.httpCall(url, HttpMethod.GET, httpEntity, GstinNotificationDataResponse.class);
+    GstinNotificationDataResponse response =
+        httpCall(url, HttpMethod.GET, httpEntity, GstinNotificationDataResponse.class);
+    return response;
   }
 
   public PostNotificationDataResponse postNotificationDataToLedger(
@@ -104,7 +106,9 @@ public class LedgerApi {
     HttpEntity<PostNotificationDataRequest> httpEntity =
         new HttpEntity<>(postNotificationDataRequest, this.getHeaders());
     String url = builder.toUriString();
-    return this.httpCall(url, HttpMethod.POST, httpEntity, PostNotificationDataResponse.class);
+    PostNotificationDataResponse response =
+        this.httpCall(url, HttpMethod.POST, postNotificationDataRequest, PostNotificationDataResponse.class);
+    return response;
   }
 
   public CSVDataForDueNotificationResponse fetchCSVDataForDueNotification(
@@ -119,6 +123,6 @@ public class LedgerApi {
     HttpEntity<CSVDataForDueNotificationRequest> httpEntity =
         new HttpEntity<>(csvDataForDueNotificationRequest, this.getHeaders());
     String url = builder.toUriString();
-    return this.httpCall(url, HttpMethod.POST, httpEntity, CSVDataForDueNotificationResponse.class);
+    return this.httpCall(url, HttpMethod.POST, csvDataForDueNotificationRequest, CSVDataForDueNotificationResponse.class);
   }
 }

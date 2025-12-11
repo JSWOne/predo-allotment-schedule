@@ -3,7 +3,7 @@ services:
     fetch-notification-gstin: /ledger-service/api/internal/v1/fetch-gstin-for-notification
     fetch-gstin-notification-data: /ledger-service/api/internal/v1/fetch-gstin-notification-data
     post-due-notification-data: /ledger-service/api/internal/v1/post-due-notification-data
-    fetch-csv-notification-data: /ledger-service/api/fetch-csv-notification-data
+    fetch-csv-notification-data: /ledger-service/api/internal/v1/fetch-csv-notification-data
 
   joms:
     check-invoice-posted: /external/v1/customer-order/check-invoice-posted

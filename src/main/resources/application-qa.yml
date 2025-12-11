@@ -18,7 +18,7 @@ temporal:
 
 external-service:
   ledger:
-    base-url: ${LEDGER-BASE-URL:https://qa-oms.msme.jswone.in/}
+    base-url: ${LEDGER-BASE-URL:http://localhost:8881/}
     client-user: ${LEDGER-SERVICE-CLIENT-USER:LSCLI4}
     client-secret: ${LEDGER-SERVICE-SECRET:LedgerService.SF.$2a$12$BAkN3bUGsEv2X354pwQkHOWBfUPH/taQWkigtp7pWm4QFJvco3dae}
   joms:
