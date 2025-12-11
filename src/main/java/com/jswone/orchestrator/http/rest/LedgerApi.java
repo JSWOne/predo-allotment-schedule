@@ -107,7 +107,8 @@ public class LedgerApi {
         new HttpEntity<>(postNotificationDataRequest, this.getHeaders());
     String url = builder.toUriString();
     PostNotificationDataResponse response =
-        this.httpCall(url, HttpMethod.POST, postNotificationDataRequest, PostNotificationDataResponse.class);
+        this.httpCall(
+            url, HttpMethod.POST, postNotificationDataRequest, PostNotificationDataResponse.class);
     return response;
   }
 
@@ -123,6 +124,10 @@ public class LedgerApi {
     HttpEntity<CSVDataForDueNotificationRequest> httpEntity =
         new HttpEntity<>(csvDataForDueNotificationRequest, this.getHeaders());
     String url = builder.toUriString();
-    return this.httpCall(url, HttpMethod.POST, csvDataForDueNotificationRequest, CSVDataForDueNotificationResponse.class);
+    return this.httpCall(
+        url,
+        HttpMethod.POST,
+        csvDataForDueNotificationRequest,
+        CSVDataForDueNotificationResponse.class);
   }
 }

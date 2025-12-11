@@ -2,7 +2,6 @@ package com.jswone.orchestrator.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jswone.orchestrator.dto.enums.NotificationEventType;
-import com.jswone.request.ServiceRequest;
 import java.util.List;
 import java.util.Map;
 import lombok.AllArgsConstructor;
@@ -14,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class PostNotificationDataRequest  {
+public class PostNotificationDataRequest {
   @JsonProperty("gstins")
   private List<String> gstins;
 
