@@ -14,4 +14,9 @@ public interface DueNotificationChildActivity {
 
   void sendNotificationToGstin(GstinNotificationData gstinNotificationData, String gstin)
       throws JsonProcessingException;
+
+  GstinNotificationDataResponse populatePendingPreDoData(
+      NotificationEventType notificationEventType,
+      String gstin,
+      GstinNotificationDataResponse gstinNotificationDataResponse);
 }

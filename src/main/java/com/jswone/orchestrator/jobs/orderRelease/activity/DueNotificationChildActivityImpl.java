@@ -4,11 +4,17 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jswone.orchestrator.config.pubsub.PubSubGateway;
+import com.jswone.orchestrator.dto.AdvancesRequiredNotificationData;
+import com.jswone.orchestrator.dto.CustomerPendingPreDoResponse;
 import com.jswone.orchestrator.dto.GstinNotificationData;
 import com.jswone.orchestrator.dto.GstinNotificationDataResponse;
 import com.jswone.orchestrator.dto.enums.NotificationEventType;
 import com.jswone.orchestrator.http.rest.JomsApi;
 import com.jswone.orchestrator.http.rest.LedgerApi;
+import io.temporal.failure.ApplicationFailure;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,5 +67,56 @@ public class DueNotificationChildActivityImpl implements DueNotificationChildAct
     pubSubGateway.sendMessageToNotificationService(message);
 
     log.info("Successfully sent notification for gstin {} ", gstin);
+  }
+
+  @Override
+  public GstinNotificationDataResponse populatePendingPreDoData(
+      NotificationEventType notificationEventType,
+      String gstin,
+      GstinNotificationDataResponse gstinNotificationDataResponse) {
+    log.info(
+        "Fetching pending  pre do for gstin {} from joms for sending notification {} ",
+        gstin,
+        notificationEventType);
+    int dueInDays =
+        switch (notificationEventType) {
+          case DUE_IN_5_DAYS -> 5;
+          case OVER_DUE -> 0;
+          case DUE_TODAY -> 1;
+        };
+    List<AdvancesRequiredNotificationData> predoList = new ArrayList<>();
+    log.info("Calling joms to fetch pending pre-do");
+    CustomerPendingPreDoResponse response = jomsApi.fetchPendingPrePO(gstin, dueInDays);
+    if (Objects.isNull(response) || !response.getSuccess()) {
+      throw ApplicationFailure.newFailure(
+          "fetch pre do data failed for gstin " + gstin, "DUE_PRE_DO_FETCH_FAILED", false);
+    }
+    if (!Objects.isNull(response.getData())) {
+      if (!response.getData().getDetails().isEmpty()) {
+        log.info("Populating pre-do data");
+        response
+            .getData()
+            .getDetails()
+            .forEach(
+                preDo -> {
+                  gstinNotificationDataResponse
+                      .getData()
+                      .getLedgerDueNotificationDetails()
+                      .getNotificationPaymentDueOtherData()
+                      .getAdvancesRequiredNotificationData()
+                      .add(
+                          AdvancesRequiredNotificationData.builder()
+                              .dueDate(preDo.getDueDate())
+                              .orderNumber(preDo.getOrderNumber())
+                              .pendingAmount(preDo.getAmount())
+                              .type(preDo.getType())
+                              .build());
+                });
+      }
+    } else {
+      log.info("No pre do datafetched from joms");
+    }
+
+    return gstinNotificationDataResponse;
   }
 }

@@ -171,6 +171,9 @@ public class DueNotificationWorkflowImpl implements DueNotificationWorkflow {
                   gstin);
               GstinNotificationDataResponse notification =
                   childActivity.fetchGstinNotificationData(notificationEventType, gstin);
+              notification =
+                  childActivity.populatePendingPreDoData(
+                      notificationEventType, gstin, notification);
 
               if (!notification.isSuccess()) {
                 log.info("Unable to fetch notification data {}", gstin);

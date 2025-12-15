@@ -6,6 +6,6 @@ services:
     fetch-csv-notification-data: /ledger-service/api/internal/v1/fetch-csv-notification-data
 
   joms:
-    check-invoice-posted: /external/v1/customer-order/check-invoice-posted
+    fetch-pending-pre-do: /external/v1/customer-pending-pre-do
   connector:
     test: /test

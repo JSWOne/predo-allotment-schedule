@@ -3,10 +3,8 @@ package com.jswone.orchestrator.http.rest;
 import com.jswone.orchestrator.config.ExternalApi;
 import com.jswone.orchestrator.dto.*;
 import jakarta.annotation.PostConstruct;
-import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -52,74 +50,22 @@ public class JomsApi {
     return response.getBody();
   }
 
-  public InvoicePostedResponse verifyInvoicesPostedStatus(String orderNumber) {
+  public CustomerPendingPreDoResponse fetchPendingPrePO(String gstin, Integer dueInDays) {
+    log.info("Calling joms to fetch pending pre-do  {}", gstin);
     String baseUrl =
-        jomsBaseUrl.concat(externalApi.getServices().get("joms").get("check-invoice-posted"));
+        jomsBaseUrl
+            .concat(externalApi.getServices().get("joms").get("fetch-pending-pre-do"))
+            .concat("/" + gstin);
 
     UriComponentsBuilder builder =
-        UriComponentsBuilder.fromHttpUrl(baseUrl).queryParam("orderNumber", orderNumber);
+        UriComponentsBuilder.fromHttpUrl(baseUrl).queryParam("dueInDays", dueInDays);
 
     HttpEntity<Void> httpEntity = new HttpEntity<>(this.getHeaders());
     String url = builder.toUriString();
-    return this.httpCall(url, HttpMethod.GET, httpEntity, InvoicePostedResponse.class);
-  }
+    CustomerPendingPreDoResponse response =
+        this.httpCall(url, HttpMethod.GET, httpEntity, CustomerPendingPreDoResponse.class);
 
-  public JomsApiResponse initiateReleaseOrder(
-      OrderReleaseTemporalWorkflowRequest orderReleaseTemporalWorkflowRequest) {
-    String url = jomsBaseUrl.concat(externalApi.getServices().get("joms").get("release-block"));
-
-    HttpEntity<OrderReleaseTemporalWorkflowRequest> httpEntity =
-        new HttpEntity<>(orderReleaseTemporalWorkflowRequest, this.getHeaders());
-    ResponseEntity<Map<String, Object>> response =
-        restTemplate.exchange(
-            url,
-            HttpMethod.PUT,
-            httpEntity,
-            new ParameterizedTypeReference<Map<String, Object>>() {});
-
-    Map<String, Object> body = response.getBody();
-    Boolean isSuccess = (Boolean) body.get("isSuccess");
-    String message = (String) body.get("message");
-    return new JomsApiResponse(isSuccess, message);
-  }
-
-  public JomsApiResponse initiateCashback(CashbackPostingRequest cashbackPostingRequest) {
-    String url =
-        jomsBaseUrl.concat(externalApi.getServices().get("joms").get("post-cashback-note"));
-
-    HttpEntity<CashbackPostingRequest> httpEntity =
-        new HttpEntity<>(cashbackPostingRequest, this.getHeaders());
-    ResponseEntity<Map<String, Object>> response =
-        restTemplate.exchange(
-            url,
-            HttpMethod.POST,
-            httpEntity,
-            new ParameterizedTypeReference<Map<String, Object>>() {});
-
-    Map<String, Object> body = response.getBody();
-    Boolean isSuccess = (Boolean) body.get("isSuccess");
-    String message = (String) body.get("message");
-    return new JomsApiResponse(isSuccess, message);
-  }
-
-  public JomsApiResponse updateOrderReleaseStatus(
-      OrderReleaseStatusRequest orderReleaseStatusRequest) {
-    String url =
-        jomsBaseUrl.concat(
-            externalApi.getServices().get("joms").get("update-order-release-status"));
-
-    HttpEntity<OrderReleaseStatusRequest> httpEntity =
-        new HttpEntity<>(orderReleaseStatusRequest, this.getHeaders());
-    ResponseEntity<Map<String, Object>> response =
-        restTemplate.exchange(
-            url,
-            HttpMethod.POST,
-            httpEntity,
-            new ParameterizedTypeReference<Map<String, Object>>() {});
-
-    Map<String, Object> body = response.getBody();
-    Boolean isSuccess = (Boolean) body.get("isSuccess");
-    String message = (String) body.get("message");
-    return new JomsApiResponse(isSuccess, message);
+    log.info("Response received from joms {}", response.toString());
+    return response;
   }
 }
