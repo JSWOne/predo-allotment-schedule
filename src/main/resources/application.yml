@@ -6,7 +6,7 @@ spring:
   application:
     name: due-notification-workflow
 server:
-  port: 8746
+  port: 8080
   servlet:
     context-path: /due-notification-workflow
 http:
