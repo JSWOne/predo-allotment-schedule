@@ -8,11 +8,11 @@
 		<version>3.4.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.jswone</groupId>
-	<artifactId>due-notificatione</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>due-notification</name>
-	<description>Workflow service </description>
+    <groupId>com.jswone</groupId>
+    <artifactId>order-release</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>order-release</name>
+    <description>Workflow service </description>
 	<url/>
 	<licenses>
 		<license/>
