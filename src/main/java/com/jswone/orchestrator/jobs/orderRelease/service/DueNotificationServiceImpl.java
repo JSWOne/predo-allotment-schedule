@@ -1,17 +1,13 @@
 package com.jswone.orchestrator.jobs.orderRelease.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jswone.orchestrator.dto.OrchestratorResponse;
 import com.jswone.orchestrator.dto.enums.NotificationEventType;
-import com.jswone.orchestrator.dto.enums.WorkflowActionEnum;
 import com.jswone.orchestrator.jobs.orderRelease.workflow.DueNotificationWorkflow;
-import com.jswone.orchestrator.persistence.entity.WorkflowReferenceEntity;
 import com.jswone.orchestrator.persistence.repository.WorkFlowReferenceRepository;
+import io.temporal.api.common.v1.WorkflowExecution;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
-import io.temporal.client.WorkflowStub;
 import io.temporal.common.RetryOptions;
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,10 +33,10 @@ public class DueNotificationServiceImpl implements DueNotificationService {
             .setTaskQueue(temporalDueNotificationTaskQueue)
             .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(3).build())
             .build();
-    DueNotificationWorkflow sellerPOWorkflow =
+    /* DueNotificationWorkflow sellerPOWorkflow =
         workflowClient.newWorkflowStub(DueNotificationWorkflow.class, options);
 
-    OrchestratorResponse response = sellerPOWorkflow.initiateOverDueJob(notificationEventType);
+    OrchestratorResponse response = sellerPOWorkflow.initiateOverDueJob(notificationEventType);*/
 
     // CreateOrderWorkflow wf = workflowClient.newWorkflowStub(CreateOrderWorkflow.class, options);
     /*
@@ -48,8 +44,39 @@ public class DueNotificationServiceImpl implements DueNotificationService {
             io.temporal.client.WorkflowClient.start(
                 sellerPOWorkflow::initiateSellerPOJob, sellerPOWorkflowInitiationRequest);
     */
+    DueNotificationWorkflow workflowStub =
+        workflowClient.newWorkflowStub(DueNotificationWorkflow.class, options);
 
-    String workflowId = WorkflowStub.fromTyped(sellerPOWorkflow).getExecution().getWorkflowId();
+    // ✅ ASYNC START (NON-BLOCKING)
+    WorkflowExecution execution =
+        WorkflowClient.start(workflowStub::initiateOverDueJob, notificationEventType);
+
+    String workflowId = execution.getWorkflowId();
+    String runId = execution.getRunId();
+
+    log.info(
+        "Workflow triggered asynchronously. type={}, workflowId={}, runId={}",
+        notificationEventType,
+        workflowId,
+        runId);
+
+    // Persist reference
+    /*     WorkflowReferenceEntity workflowReferenceEntity =
+                  WorkflowReferenceEntity.builder()
+                          .referenceNo(LocalDateTime.now().toString())
+                          .workflowId(workflowId)
+                          .runId(runId)
+                          .type(WorkflowActionEnum.DUE_PAYMENT_NOTIFICATION.name())
+                          .build();
+
+          workflowClientRepository.save(workflowReferenceEntity);
+    */
+    // ✅ Immediate response (workflow still running)
+    return OrchestratorResponse.builder()
+        .isSuccess(true)
+        .message("Workflow started successfully")
+        .build();
+    /*String workflowId = WorkflowStub.fromTyped(sellerPOWorkflow).getExecution().getWorkflowId();
 
     log.info(
         "Workflow triggered for notification type - {} workflow id -{}",
@@ -65,7 +92,7 @@ public class DueNotificationServiceImpl implements DueNotificationService {
             .build();
     workflowClientRepository.save(workflowReferenceEntity);
 
-    log.info("initialised workflow  with id {}", workflowId);
+    log.info("initialised workflow  with id {}", workflowId);*/
 
     /*
         SellerPOWorkflowInitiationResponse result =
@@ -73,6 +100,6 @@ public class DueNotificationServiceImpl implements DueNotificationService {
                 .getResult(SellerPOWorkflowInitiationResponse.class);
     */
 
-    return response;
+    //  return response;
   }
 }
