@@ -95,39 +95,7 @@
 <!--		</dependency>-->
 
 	</dependencies>
-    <repositories>
-        <!-- jhipster-needle-maven-repository -->
-        <repository>
-            <id>artifact-registry</id>
-            <url>artifactregistry://asia-south1-maven.pkg.dev/modular-bucksaw-305821/jsw-one-msme-artifacts</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>artifact-registry2</id>
-            <url>https://plugins.gradle.org/m2/</url>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>artifact-registry3</id>
-            <url>https://github.com/talon-one/maven-artefacts/raw/master</url>
-            <layout>default</layout>
-        </repository>
-        <repository>
-            <id>artifact-registry-snapshot</id>
-            <url>artifactregistry://asia-south1-maven.pkg.dev/modular-bucksaw-305821/jsw-one-msme-artifacts-snapshot</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -198,6 +166,44 @@
 			</plugin>
 
 		</plugins>
+        <extensions>
+            <extension>
+                <groupId>com.google.cloud.artifactregistry</groupId>
+                <artifactId>artifactregistry-maven-wagon</artifactId>
+                <version>2.2.0</version>
+            </extension>
+        </extensions>
 	</build>
+
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>artifact-registry</id>
+            <url>artifactregistry://asia-south1-maven.pkg.dev/modular-bucksaw-305821/jsw-one-msme-artifacts-snapshot</url>
+        </snapshotRepository>
+    </distributionManagement>
+    <repositories>
+        <repository>
+            <id>artifact-registry-snapshot</id>
+            <url>artifactregistry://asia-south1-maven.pkg.dev/modular-bucksaw-305821/jsw-one-msme-artifacts-snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>artifact-registry</id>
+            <url>artifactregistry://asia-south1-maven.pkg.dev/modular-bucksaw-305821/jsw-one-msme-artifacts</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
 
 </project>
