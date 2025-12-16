@@ -8,11 +8,11 @@
 		<version>3.4.2</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-    <groupId>com.jswone</groupId>
-    <artifactId>order-release</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>order-release</name>
-    <description>Workflow service </description>
+	<groupId>com.jswone</groupId>
+	<artifactId>due-notification</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>due-notification</name>
+	<description>Workflow service </description>
 	<url/>
 	<licenses>
 		<license/>
@@ -95,7 +95,39 @@
 <!--		</dependency>-->
 
 	</dependencies>
-
+    <repositories>
+        <!-- jhipster-needle-maven-repository -->
+        <repository>
+            <id>artifact-registry</id>
+            <url>artifactregistry://asia-south1-maven.pkg.dev/modular-bucksaw-305821/jsw-one-msme-artifacts</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>artifact-registry2</id>
+            <url>https://plugins.gradle.org/m2/</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>artifact-registry3</id>
+            <url>https://github.com/talon-one/maven-artefacts/raw/master</url>
+            <layout>default</layout>
+        </repository>
+        <repository>
+            <id>artifact-registry-snapshot</id>
+            <url>artifactregistry://asia-south1-maven.pkg.dev/modular-bucksaw-305821/jsw-one-msme-artifacts-snapshot</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 	<build>
 		<plugins>
 			<plugin>
