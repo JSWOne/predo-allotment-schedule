@@ -99,18 +99,21 @@ public class DueNotificationChildActivityImpl implements DueNotificationChildAct
             .getDetails()
             .forEach(
                 preDo -> {
-                  gstinNotificationDataResponse
-                      .getData()
-                      .getLedgerDueNotificationDetails()
-                      .getNotificationPaymentDueOtherData()
-                      .getAdvancesRequiredNotificationData()
-                      .add(
-                          AdvancesRequiredNotificationData.builder()
-                              .dueDate(preDo.getDueDate())
-                              .orderNumber(preDo.getOrderNumber())
-                              .pendingAmount(preDo.getAmount())
-                              .type(preDo.getType())
-                              .build());
+                  if (!Objects.isNull(
+                      gstinNotificationDataResponse.getData().getLedgerDueNotificationDetails())) {
+                    gstinNotificationDataResponse
+                        .getData()
+                        .getLedgerDueNotificationDetails()
+                        .getNotificationPaymentDueOtherData()
+                        .getAdvancesRequiredNotificationData()
+                        .add(
+                            AdvancesRequiredNotificationData.builder()
+                                .dueDate(preDo.getDueDate())
+                                .orderNumber(preDo.getOrderNumber())
+                                .pendingAmount(preDo.getAmount())
+                                .type(preDo.getType())
+                                .build());
+                  }
                 });
       }
     } else {

@@ -10,6 +10,7 @@ import com.jswone.orchestrator.persistence.repository.WorkFlowReferenceRepositor
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
 import io.temporal.client.WorkflowStub;
+import io.temporal.common.RetryOptions;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,10 @@ public class DueNotificationServiceImpl implements DueNotificationService {
       NotificationEventType notificationEventType) {
     log.info("Workflow to be triggered for confirming order {}");
     WorkflowOptions options =
-        WorkflowOptions.newBuilder().setTaskQueue(temporalDueNotificationTaskQueue).build();
+        WorkflowOptions.newBuilder()
+            .setTaskQueue(temporalDueNotificationTaskQueue)
+            .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(3).build())
+            .build();
     DueNotificationWorkflow sellerPOWorkflow =
         workflowClient.newWorkflowStub(DueNotificationWorkflow.class, options);
 

@@ -1,18 +1,24 @@
 package com.jswone.orchestrator.jobs.orderRelease.workflow;
 
-import com.jswone.orchestrator.dto.GstinNotificationDataResponse;
+import com.jswone.orchestrator.dto.ChildWorkflowResult;
 import com.jswone.orchestrator.dto.OrchestratorResponse;
 import com.jswone.orchestrator.dto.PaymentNotificationSchedulerData;
 import com.jswone.orchestrator.dto.enums.NotificationEventType;
 import com.jswone.orchestrator.jobs.orderRelease.activity.DueNotificationActivity;
 import com.jswone.orchestrator.jobs.orderRelease.activity.DueNotificationChildActivity;
 import io.temporal.activity.ActivityOptions;
+import io.temporal.api.enums.v1.ParentClosePolicy;
 import io.temporal.common.RetryOptions;
+import io.temporal.workflow.Async;
+import io.temporal.workflow.ChildWorkflowOptions;
+import io.temporal.workflow.Promise;
 import io.temporal.workflow.Workflow;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
 public class DueNotificationWorkflowImpl implements DueNotificationWorkflow {
@@ -132,7 +138,7 @@ public class DueNotificationWorkflowImpl implements DueNotificationWorkflow {
 
     try {
       List<String> gstinsList = activity.fetchGstinsForNotification(notificationEventType);
-
+      gstinsList.removeIf(String::isEmpty);
       if (gstinsList.isEmpty()) {
         response.setIsSuccess(false);
         response.setMessage("No gstins fetched for Notification type " + notificationEventType);
@@ -162,39 +168,80 @@ public class DueNotificationWorkflowImpl implements DueNotificationWorkflow {
           errorData.put(r.getGstin(), r.getError());
         }
       }*/
-      gstinsList.forEach(
-          gstin -> {
-            try {
-              log.info(
-                  "Initiating {} payments notification job for gstin {}",
-                  notificationEventType,
-                  gstin);
-              GstinNotificationDataResponse notification =
-                  childActivity.fetchGstinNotificationData(notificationEventType, gstin);
-              notification =
-                  childActivity.populatePendingPreDoData(
-                      notificationEventType, gstin, notification);
 
-              if (!notification.isSuccess()) {
-                log.info("Unable to fetch notification data {}", gstin);
-                errorData.put(gstin, notification.getErrorMessage());
-              } else {
-                log.info(
-                    "Sending notification for gstin {} for notification {}", gstin, notification);
-                childActivity.sendNotificationToGstin(notification.getData(), gstin);
-                successData.put(
-                    gstin,
-                    notification
-                        .getData()
-                        .getLedgerDueNotificationDetails()
-                        .getNotificationPaymentDueOtherData()
-                        .getEventId());
-              }
-            } catch (Exception e) {
-              log.info("Exception occurred in triggering notification for gstin {}", gstin);
-              errorData.put(gstin, e.getMessage());
-            }
-          });
+      List<Promise<ChildWorkflowResult>> promises = new ArrayList<>();
+
+      for (String gstin : gstinsList) {
+        if (!StringUtils.isEmpty(gstin)) {
+          /*        GstinNotificationChildWorkflow child =
+          Workflow.newChildWorkflowStub(
+              GstinNotificationChildWorkflow.class,
+              ChildWorkflowOptions.newBuilder()
+                  .setWorkflowId(Workflow.getInfo().getWorkflowId() + "-" + gstin)
+                  .build());*/
+
+          GstinNotificationChildWorkflow child =
+              Workflow.newChildWorkflowStub(
+                  GstinNotificationChildWorkflow.class,
+                  ChildWorkflowOptions.newBuilder()
+                      .setWorkflowId(Workflow.getInfo().getWorkflowId() + "-" + gstin)
+                      .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(3).build())
+                      .setParentClosePolicy(ParentClosePolicy.PARENT_CLOSE_POLICY_ABANDON)
+                      .build());
+
+          Promise<ChildWorkflowResult> promise =
+              Async.function(child::processGstin, notificationEventType, gstin);
+
+          promises.add(promise);
+        }
+      }
+
+      // ✅ WAIT FOR ALL CHILD WORKFLOWS
+      Promise.allOf(promises).get();
+
+      // ✅ COLLECT RESULTS
+      for (Promise<ChildWorkflowResult> promise : promises) {
+        ChildWorkflowResult result = promise.get();
+
+        if (result.isSuccess()) {
+          successData.put(result.getGstin(), result.getEventId());
+        } else {
+          errorData.put(result.getGstin(), result.getError());
+        }
+      }
+      /* gstinsList.forEach(
+      gstin -> {
+        try {
+          log.info(
+              "Initiating {} payments notification job for gstin {}",
+              notificationEventType,
+              gstin);
+          GstinNotificationDataResponse notification =
+              childActivity.fetchGstinNotificationData(notificationEventType, gstin);
+          notification =
+              childActivity.populatePendingPreDoData(
+                  notificationEventType, gstin, notification);
+
+          if (!notification.isSuccess()) {
+            log.info("Unable to fetch notification data {}", gstin);
+            errorData.put(gstin, notification.getErrorMessage());
+          } else {
+            log.info(
+                "Sending notification for gstin {} for notification {}", gstin, notification);
+            childActivity.sendNotificationToGstin(notification.getData(), gstin);
+            successData.put(
+                gstin,
+                notification
+                    .getData()
+                    .getLedgerDueNotificationDetails()
+                    .getNotificationPaymentDueOtherData()
+                    .getEventId());
+          }
+        } catch (Exception e) {
+          log.info("Exception occurred in triggering notification for gstin {}", gstin);
+          errorData.put(gstin, e.getMessage());
+        }
+      });*/
       // Continue original logic
       activity.storeNotificationDataInDB(notificationEventType, successData, errorData, gstinsList);
 
