@@ -26,6 +26,6 @@ external-service:
     api-key:  ${JOMS-API-KEY:3f9a2b5f-7bd8-4a51-b11f-47b30decd925}
 
 notification:
-  report-to-email: ${REPORT-TO-EMAIL:nitish.rohilla@jsw.in}
+  report-to-email: ${REPORT-TO-EMAIL:nitish.rohilla@jsw.in,v_pratiksha.shete@jsw.in}
   report-cc-email: ${REPORT-CC-EMAIL:nitish.rohilla@jsw.in}
 
