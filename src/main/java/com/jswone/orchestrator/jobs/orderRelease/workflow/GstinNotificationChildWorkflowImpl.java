@@ -22,6 +22,13 @@ public class GstinNotificationChildWorkflowImpl implements GstinNotificationChil
       if (!StringUtils.isEmpty(gstin)) {
         GstinNotificationDataResponse notification =
             childActivity.fetchGstinNotificationData(type, gstin);
+        if (!notification.isSuccess()) {
+          return ChildWorkflowResult.builder()
+              .gstin(gstin)
+              .success(false)
+              .error(notification.getErrorMessage())
+              .build();
+        }
         notification = childActivity.populatePendingPreDoData(type, gstin, notification);
         if (!notification.isSuccess()) {
           return ChildWorkflowResult.builder()
