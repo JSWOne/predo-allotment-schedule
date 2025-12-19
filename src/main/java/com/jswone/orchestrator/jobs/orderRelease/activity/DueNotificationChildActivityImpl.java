@@ -12,7 +12,6 @@ import com.jswone.orchestrator.dto.enums.NotificationEventType;
 import com.jswone.orchestrator.http.rest.JomsApi;
 import com.jswone.orchestrator.http.rest.LedgerApi;
 import io.temporal.failure.ApplicationFailure;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +61,10 @@ public class DueNotificationChildActivityImpl implements DueNotificationChildAct
   public void sendNotificationToGstin(GstinNotificationData gstinNotificationData, String gstin)
       throws JsonProcessingException {
 
-    log.info("triggering notification for gstin {} event id {}", gstin,gstinNotificationData
+    log.info(
+        "triggering notification for gstin {} event id {}",
+        gstin,
+        gstinNotificationData
             .getLedgerDueNotificationDetails()
             .getNotificationPaymentDueOtherData()
             .getEventId());
@@ -119,34 +121,45 @@ public class DueNotificationChildActivityImpl implements DueNotificationChildAct
                                 .type("For material dispatch")
                                 .build());
 
-                      BigDecimal updatedAdvanceAmount =gstinNotificationDataResponse
-                              .getData()
-                              .getLedgerDueNotificationDetails()
-                              .getNotificationPaymentDueOtherData().getAdvanceRequiredAmount().add(preDo.getAmount());
-                      gstinNotificationDataResponse
-                              .getData()
-                              .getLedgerDueNotificationDetails()
-                              .getNotificationPaymentDueOtherData().setAdvanceRequiredAmount(updatedAdvanceAmount);
+                    BigDecimal updatedAdvanceAmount =
+                        gstinNotificationDataResponse
+                            .getData()
+                            .getLedgerDueNotificationDetails()
+                            .getNotificationPaymentDueOtherData()
+                            .getAdvanceRequiredAmount()
+                            .add(preDo.getAmount());
+                    gstinNotificationDataResponse
+                        .getData()
+                        .getLedgerDueNotificationDetails()
+                        .getNotificationPaymentDueOtherData()
+                        .setAdvanceRequiredAmount(updatedAdvanceAmount);
 
-                      BigDecimal updatedTotalPayment = gstinNotificationDataResponse
-                              .getData()
-                              .getLedgerDueNotificationDetails()
-                              .getNotificationPaymentDueOtherData().getTotalPaymentsDue().add(preDo.getAmount());
-                      gstinNotificationDataResponse
-                              .getData()
-                              .getLedgerDueNotificationDetails()
-                              .getNotificationPaymentDueOtherData().setTotalPaymentsDue(updatedTotalPayment);
+                    BigDecimal updatedTotalPayment =
+                        gstinNotificationDataResponse
+                            .getData()
+                            .getLedgerDueNotificationDetails()
+                            .getNotificationPaymentDueOtherData()
+                            .getTotalPaymentsDue()
+                            .add(preDo.getAmount());
+                    gstinNotificationDataResponse
+                        .getData()
+                        .getLedgerDueNotificationDetails()
+                        .getNotificationPaymentDueOtherData()
+                        .setTotalPaymentsDue(updatedTotalPayment);
 
-                      BigDecimal updatedNetPayment = gstinNotificationDataResponse
-                              .getData()
-                              .getLedgerDueNotificationDetails()
-                              .getNotificationPaymentDueOtherData().getNetPaymentsDue().add(preDo.getAmount());
+                    BigDecimal updatedNetPayment =
+                        gstinNotificationDataResponse
+                            .getData()
+                            .getLedgerDueNotificationDetails()
+                            .getNotificationPaymentDueOtherData()
+                            .getNetPaymentsDue()
+                            .add(preDo.getAmount());
 
-                      gstinNotificationDataResponse
-                              .getData()
-                              .getLedgerDueNotificationDetails()
-                              .getNotificationPaymentDueOtherData().setNetPaymentsDue(updatedNetPayment);
-
+                    gstinNotificationDataResponse
+                        .getData()
+                        .getLedgerDueNotificationDetails()
+                        .getNotificationPaymentDueOtherData()
+                        .setNetPaymentsDue(updatedNetPayment);
                   }
                 });
       }

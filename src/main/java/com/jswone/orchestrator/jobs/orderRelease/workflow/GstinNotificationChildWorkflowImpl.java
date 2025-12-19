@@ -7,6 +7,7 @@ import com.jswone.orchestrator.jobs.orderRelease.activity.DueNotificationChildAc
 import io.temporal.activity.ActivityOptions;
 import io.temporal.workflow.Workflow;
 import java.time.Duration;
+import java.util.Objects;
 import org.apache.commons.lang3.StringUtils;
 
 public class GstinNotificationChildWorkflowImpl implements GstinNotificationChildWorkflow {
@@ -22,7 +23,7 @@ public class GstinNotificationChildWorkflowImpl implements GstinNotificationChil
       if (!StringUtils.isEmpty(gstin)) {
         GstinNotificationDataResponse notification =
             childActivity.fetchGstinNotificationData(type, gstin);
-        if (!notification.isSuccess()) {
+        if (!notification.isSuccess() || Objects.isNull(notification.getData())) {
           return ChildWorkflowResult.builder()
               .gstin(gstin)
               .success(false)
