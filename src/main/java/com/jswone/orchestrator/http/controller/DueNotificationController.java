@@ -17,10 +17,27 @@ public class DueNotificationController {
   private final DueNotificationService dueNotificationService;
 
   @PostMapping(value = "/initiate-over-due-notification")
-  public ResponseEntity<OrchestratorResponse> setUpOrderReleaseJob() {
+  public ResponseEntity<OrchestratorResponse> initiateOverDueNotification() {
     log.info("Call received to initiate over due notification scheduler");
     OrchestratorResponse orchestratorResponse =
         dueNotificationService.initiateOverDueNotificationWorkflow(NotificationEventType.OVER_DUE);
+    return ResponseEntity.ok(orchestratorResponse);
+  }
+
+  @PostMapping(value = "/initiate-due-today-notification")
+  public ResponseEntity<OrchestratorResponse> initiateDueTodayNotification() {
+    log.info("Call received to initiate over due notification scheduler");
+    OrchestratorResponse orchestratorResponse =
+        dueNotificationService.initiateOverDueNotificationWorkflow(NotificationEventType.DUE_TODAY);
+    return ResponseEntity.ok(orchestratorResponse);
+  }
+
+  @PostMapping(value = "/initiate-due-in-days-notification")
+  public ResponseEntity<OrchestratorResponse> initiateDueInDaysNotification() {
+    log.info("Call received to initiate over due notification scheduler");
+    OrchestratorResponse orchestratorResponse =
+        dueNotificationService.initiateOverDueNotificationWorkflow(
+            NotificationEventType.DUE_IN_5_DAYS);
     return ResponseEntity.ok(orchestratorResponse);
   }
 }
