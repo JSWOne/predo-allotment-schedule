@@ -160,6 +160,20 @@ public class DueNotificationChildActivityImpl implements DueNotificationChildAct
                         .getLedgerDueNotificationDetails()
                         .getNotificationPaymentDueOtherData()
                         .setNetPaymentsDue(updatedNetPayment);
+
+                    BigDecimal updatedDuePayment =
+                        gstinNotificationDataResponse
+                            .getData()
+                            .getLedgerDueNotificationDetails()
+                            .getNotificationPaymentDueOtherData()
+                            .getDueAmount()
+                            .add(preDo.getAmount());
+
+                    gstinNotificationDataResponse
+                        .getData()
+                        .getLedgerDueNotificationDetails()
+                        .getNotificationPaymentDueOtherData()
+                        .setDueAmount(updatedDuePayment);
                   }
                 });
       }
