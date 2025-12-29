@@ -17,6 +17,8 @@ temporal:
   due-notification-task-queue: ${DUE-NOTIFICATION-QUEUE:due-notification-task-queue}
 
 external-service:
+  ccp:
+    base-url: ${CCP-BASE-URL:https://qa-ssr.msme.jswone.in/}
   ledger:
     base-url: ${LEDGER-BASE-URL:https://qa-oms.msme.jswone.in/}
     client-user: ${LEDGER-SERVICE-CLIENT-USER:LSCLI4}

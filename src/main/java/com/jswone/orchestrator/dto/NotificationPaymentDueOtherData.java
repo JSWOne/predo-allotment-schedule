@@ -32,4 +32,5 @@ public class NotificationPaymentDueOtherData {
   private BigDecimal totalDueLater;
   private BigDecimal dueAmount;
   private String eventId;
+  private String trackingUrl;
 }

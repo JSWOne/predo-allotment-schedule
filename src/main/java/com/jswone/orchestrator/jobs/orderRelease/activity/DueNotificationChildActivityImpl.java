@@ -36,6 +36,9 @@ public class DueNotificationChildActivityImpl implements DueNotificationChildAct
   @Value("${notification.report-cc-email}")
   private String ledgerReportCCEmail;
 
+  @Value("${external-service.ccp.base-url}")
+  private String ccpBaseUrl;
+
   @Autowired private PubSubGateway pubSubGateway;
 
   private final LedgerApi ledgerApi;
@@ -176,6 +179,12 @@ public class DueNotificationChildActivityImpl implements DueNotificationChildAct
                         .setDueAmount(updatedDuePayment);
                   }
                 });
+
+        gstinNotificationDataResponse
+            .getData()
+            .getLedgerDueNotificationDetails()
+            .getNotificationPaymentDueOtherData()
+            .setTrackingUrl(ccpBaseUrl.concat("track-material"));
       }
     } else {
       log.info("No pre do datafetched from joms");
