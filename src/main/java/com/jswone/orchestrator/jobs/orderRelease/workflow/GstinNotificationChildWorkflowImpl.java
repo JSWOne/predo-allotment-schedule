@@ -5,6 +5,7 @@ import com.jswone.orchestrator.dto.GstinNotificationDataResponse;
 import com.jswone.orchestrator.dto.enums.NotificationEventType;
 import com.jswone.orchestrator.jobs.orderRelease.activity.DueNotificationChildActivity;
 import io.temporal.activity.ActivityOptions;
+import io.temporal.common.RetryOptions;
 import io.temporal.workflow.Workflow;
 import java.time.Duration;
 import java.util.Objects;
@@ -14,7 +15,10 @@ public class GstinNotificationChildWorkflowImpl implements GstinNotificationChil
   private final DueNotificationChildActivity childActivity =
       Workflow.newActivityStub(
           DueNotificationChildActivity.class,
-          ActivityOptions.newBuilder().setStartToCloseTimeout(Duration.ofMinutes(2)).build());
+          ActivityOptions.newBuilder()
+              .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(3).build())
+              .setStartToCloseTimeout(Duration.ofMinutes(2))
+              .build());
 
   @Override
   public ChildWorkflowResult processGstin(NotificationEventType type, String gstin) {
