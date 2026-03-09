@@ -2,13 +2,7 @@ spring:
   cloud:
     gcp:
       project-id: jswone-qa-356112
-  datasource:
-    url: jdbc:postgresql://${DB-IP}:5432/${DB-NAME}
-    username: ${DB-USERNAME}
-    password: ${DB-PASSWORD}
-    driver:
-      class:
-        name: org.postgresql.Driver
+
   jpa:
     show-sql: true
     hibernate:

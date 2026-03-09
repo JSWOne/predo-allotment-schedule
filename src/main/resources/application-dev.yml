@@ -4,13 +4,7 @@ spring:
       project-id: ${GCP-PROJECT-ID:jswone-dev}
       pubsub:
         orchestrator-to-notification: ${NOTIFICATION-PUBSUB-TOPIC:notification-request-queue}
-  datasource:
-    url: jdbc:postgresql://${ORCHESTRATOR-DB-IP}:5432/${ORCHESTRATOR-DB-NAME}
-    username: ${ORCHESTRATOR-DB-USERNAME}
-    password: ${ORCHESTRATOR-DB-PASSWORD}
-    driver:
-      class:
-        name: org.postgresql.Driver
+
 temporal:
   server-base-url: ${TEMPORAL-BASE-URL:34.93.59.150:7233}
   namespace: ${TEMPORAL-NAMESPACE:test}

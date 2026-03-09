@@ -3,7 +3,6 @@ package com.jswone.orchestrator.jobs.orderRelease.service;
 import com.jswone.orchestrator.dto.OrchestratorResponse;
 import com.jswone.orchestrator.dto.enums.NotificationEventType;
 import com.jswone.orchestrator.jobs.orderRelease.workflow.DueNotificationWorkflow;
-import com.jswone.orchestrator.persistence.repository.WorkFlowReferenceRepository;
 import io.temporal.api.common.v1.WorkflowExecution;
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowOptions;
@@ -19,7 +18,6 @@ import org.springframework.stereotype.Service;
 public class DueNotificationServiceImpl implements DueNotificationService {
 
   private final WorkflowClient workflowClient;
-  private final WorkFlowReferenceRepository workflowClientRepository;
 
   @Value("${temporal.due-notification-task-queue}")
   private String temporalDueNotificationTaskQueue;

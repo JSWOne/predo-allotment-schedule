@@ -4,13 +4,7 @@ spring:
       project-id: ${GCP-PROJECT-ID:modular-bucksaw-305821}
       pubsub:
         orchestrator-to-notification: ${NOTIFICATION-PUBSUB-TOPIC:notification-request-queue}
-  datasource:
-    url: jdbc:postgresql://${ORCHESTRATOR-DB-IP}:5432/orchestrator
-    username: ${ORCHESTRATOR-DB-USERNAME}
-    password: ${ORCHESTRATOR-DB-PWD}
-    driver:
-      class:
-        name: org.postgresql.Driver
+
 temporal:
   server-base-url: ${TEMPORAL-BASE-URL:10.169.1.5:7233}
   namespace: ${TEMPORAL-NAMESPACE:order_release}

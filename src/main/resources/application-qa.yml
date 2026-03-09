@@ -4,13 +4,7 @@ spring:
       project-id: ${GCP-PROJECT-ID:jswone-qa-356112}
       pubsub:
         orchestrator-to-notification: ${NOTIFICATION-PUBSUB-TOPIC:notification-request-queue}
-  datasource:
-    url: jdbc:postgresql://${ORCHESTRATOR-DB-IP}:5432/orchestrator
-    username: ${ORCHESTRATOR-DB-USERNAME}
-    password: ${ORCHESTRATOR-DB-PWD}
-    driver:
-      class:
-        name: org.postgresql.Driver
+
 temporal:
   server-base-url: ${TEMPORAL-BASE-URL:}
   namespace: ${TEMPORAL-NAMESPACE:due-payments-notification}
