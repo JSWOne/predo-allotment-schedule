@@ -1,0 +1,27 @@
+spring:
+  cloud:
+    gcp:
+      project-id: ${GCP-PROJECT-ID:jswone-qa-356112}
+      pubsub:
+        orchestrator-to-notification: ${NOTIFICATION-PUBSUB-TOPIC:notification-request-queue}
+
+temporal:
+  server-base-url: ${TEMPORAL-BASE-URL:preprod-payment-orchestrator-temporal-frontend.temporal.svc.cluster.local:7233}
+  namespace: ${TEMPORAL-NAMESPACE:due-payments-notification}
+  due-notification-task-queue: ${DUE-NOTIFICATION-QUEUE:due-notification-task-queue}
+
+external-service:
+  ccp:
+    base-url: ${CCP-BASE-URL:https://qa-ssr.msme.jswone.in/}
+  ledger:
+    base-url: ${LEDGER-BASE-URL:https://qa-oms.msme.jswone.in/}
+    client-user: ${LEDGER-SERVICE-CLIENT-USER:LSCLI4}
+    client-secret: ${LEDGER-SERVICE-SECRET:LedgerService.SF.$2a$12$BAkN3bUGsEv2X354pwQkHOWBfUPH/taQWkigtp7pWm4QFJvco3dae}
+  joms:
+    base-url: ${JOMS-BASE-URL:https://next2.qa.jswone.in/joms/api}
+    api-key:  ${JOMS-API-KEY:3f9a2b5f-7bd8-4a51-b11f-47b30decd925}
+
+notification:
+  report-to-email: ${REPORT-TO-EMAIL:nitish.rohilla@jsw.in,v_pratiksha.shete@jsw.in}
+  report-cc-email: ${REPORT-CC-EMAIL:nitish.rohilla@jsw.in}
+
