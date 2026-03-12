@@ -24,4 +24,5 @@ external-service:
 notification:
   report-to-email: ${REPORT-TO-EMAIL}
   report-cc-email: ${REPORT-CC-EMAIL}
+  due-threshold: ${LEDGER_NOTIFICATION_PAYMENT_THRESOLD_VALUE}
 

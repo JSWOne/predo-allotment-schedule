@@ -24,4 +24,5 @@ external-service:
 notification:
   report-to-email: ${REPORT-TO-EMAIL:nitish.rohilla@jsw.in,v_pratiksha.shete@jsw.in}
   report-cc-email: ${REPORT-CC-EMAIL:nitish.rohilla@jsw.in}
+  due-threshold: ${LEDGER_NOTIFICATION_PAYMENT_THRESOLD_VALUE:100}
 

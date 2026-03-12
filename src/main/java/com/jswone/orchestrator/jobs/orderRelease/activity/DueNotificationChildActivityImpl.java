@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +39,9 @@ public class DueNotificationChildActivityImpl implements DueNotificationChildAct
 
   @Value("${external-service.ccp.base-url}")
   private String ccpBaseUrl;
+
+  @Value("${notification.due-threshold}")
+  private String threshold;
 
   @Autowired private PubSubGateway pubSubGateway;
 
@@ -94,6 +98,7 @@ public class DueNotificationChildActivityImpl implements DueNotificationChildAct
           case OVER_DUE -> 0;
           case DUE_TODAY -> 1;
         };
+    AtomicReference<BigDecimal> totalNetPaymentDue = new AtomicReference<>(BigDecimal.ZERO);
     List<AdvancesRequiredNotificationData> predoList = new ArrayList<>();
     log.info("Calling joms to fetch pending pre-do");
     CustomerPendingPreDoResponse response = jomsApi.fetchPendingPrePO(gstin, dueInDays);
@@ -163,6 +168,7 @@ public class DueNotificationChildActivityImpl implements DueNotificationChildAct
                         .getLedgerDueNotificationDetails()
                         .getNotificationPaymentDueOtherData()
                         .setNetPaymentsDue(updatedNetPayment);
+                    totalNetPaymentDue.set(updatedNetPayment);
 
                     BigDecimal updatedDuePayment =
                         gstinNotificationDataResponse
@@ -179,6 +185,23 @@ public class DueNotificationChildActivityImpl implements DueNotificationChildAct
                         .setDueAmount(updatedDuePayment);
                   }
                 });
+        if (totalNetPaymentDue.get().compareTo(BigDecimal.valueOf(Integer.parseInt(threshold)))
+            < 0) {
+          String errorMessage =
+              String.format(
+                  "Cannot trigger notification as net"
+                      + " payment due less than "
+                      + threshold
+                      + " or"
+                      + " negative for gstin %s therefore"
+                      + " customer does not have to pay"
+                      + " anything",
+                  gstin);
+          return GstinNotificationDataResponse.builder()
+              .success(Boolean.FALSE)
+              .errorMessage(errorMessage)
+              .build();
+        }
 
         gstinNotificationDataResponse
             .getData()
