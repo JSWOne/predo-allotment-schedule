@@ -3,15 +3,25 @@ spring:
     gcp:
       project-id: ${GCP-PROJECT-ID:modular-bucksaw-305821}
       pubsub:
-        orchestrator-to-notification: ${NOTIFICATION-PUBSUB-TOPIC:notification-request-queue}
+        orchestrator-to-notification: ${NOTIFICATION-PUBSUB-TOPIC}
 
 temporal:
-  server-base-url: ${TEMPORAL-BASE-URL:10.169.1.5:7233}
-  namespace: ${TEMPORAL-NAMESPACE:order_release}
-  order-release-task-queue: ${ORDER-RELEASE-QUEUE:order-release-task-queue}
+  server-base-url: ${TEMPORAL-BASE-URL}
+  namespace: ${TEMPORAL-NAMESPACE:due-payments-notification}
+  due-notification-task-queue: ${DUE-NOTIFICATION-QUEUE:due-notification-task-queue}
 
 external-service:
+  ccp:
+    base-url: ${CCP-BASE-URL}
+  ledger:
+    base-url: ${LEDGER-BASE-URL}
+    client-user: ${LEDGER-SERVICE-CLIENT-USER}
+    client-secret: ${LEDGER-SERVICE-SECRET}
   joms:
     base-url: ${JOMS-BASE-URL}
-    api-key:  ${JOMS-API-KEY:3f9a2b5f-7bd8-4a51-b11f-47b30decd925}
+    api-key:  ${JOMS-API-KEY}
+
+notification:
+  report-to-email: ${REPORT-TO-EMAIL}
+  report-cc-email: ${REPORT-CC-EMAIL}
 
