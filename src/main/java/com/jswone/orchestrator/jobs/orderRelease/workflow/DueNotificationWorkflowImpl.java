@@ -138,7 +138,8 @@ public class DueNotificationWorkflowImpl implements DueNotificationWorkflow {
 
     try {
       List<String> gstinsList = activity.fetchGstinsForNotification(notificationEventType);
-      gstinsList.removeIf(String::isEmpty);
+      //  gstinsList.removeIf(String::isEmpty);
+      gstinsList.removeIf(s -> s == null || s.trim().isEmpty());
       if (gstinsList.isEmpty()) {
         response.setIsSuccess(false);
         response.setMessage("No gstins fetched for Notification type " + notificationEventType);
@@ -196,10 +197,8 @@ public class DueNotificationWorkflowImpl implements DueNotificationWorkflow {
         }
       }
 
-      // ✅ WAIT FOR ALL CHILD WORKFLOWS
       Promise.allOf(promises).get();
 
-      // ✅ COLLECT RESULTS
       for (Promise<ChildWorkflowResult> promise : promises) {
         ChildWorkflowResult result = promise.get();
 
