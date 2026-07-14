@@ -7,22 +7,12 @@ spring:
 
 temporal:
   server-base-url: ${TEMPORAL-BASE-URL}
-  namespace: ${TEMPORAL-NAMESPACE:due-payments-notification}
-  due-notification-task-queue: ${DUE-NOTIFICATION-QUEUE:due-notification-task-queue}
+  namespace: ${TEMPORAL-NAMESPACE}
+  pre-do-allotment-task-queue: ${FG-PRE-DO-ALLOTMENT-QUEUE:fg-pre-do-allotment-task-queue}
 
 external-service:
-  ccp:
-    base-url: ${CCP-BASE-URL}
-  ledger:
-    base-url: ${LEDGER-BASE-URL}
-    client-user: ${LEDGER-SERVICE-CLIENT-USER}
-    client-secret: ${LEDGER-SERVICE-SECRET}
   joms:
     base-url: ${JOMS-BASE-URL}
     api-key:  ${JOMS-API-KEY}
 
-notification:
-  report-to-email: ${REPORT-TO-EMAIL}
-  report-cc-email: ${REPORT-CC-EMAIL}
-  due-threshold: ${LEDGER_NOTIFICATION_PAYMENT_THRESOLD_VALUE}
 

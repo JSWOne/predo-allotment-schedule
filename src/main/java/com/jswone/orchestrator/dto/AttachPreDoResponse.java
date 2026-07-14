@@ -5,13 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChildWorkflowResult {
-  private Long fgUpdateId;
-  private boolean success;
-  private String error;
-  private String eventId;
+public class AttachPreDoResponse {
+
+  private String requestId;
+  private Boolean isSuccess;
+  private String message;
 }

@@ -1,11 +1,8 @@
 package com.jswone.orchestrator.jobs.activity;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import com.jswone.orchestrator.dto.OrderReleaseTemporalWorkflowRequest;
 import com.jswone.orchestrator.http.rest.JomsApi;
-import com.jswone.orchestrator.jobs.orderRelease.activity.DueNotificationActivityImpl;
+import com.jswone.orchestrator.jobs.orderRelease.activity.PreDoAllotmentActivityImpl;
 import io.temporal.activity.Activity;
 import io.temporal.activity.ActivityExecutionContext;
 import io.temporal.activity.ActivityInfo;
@@ -14,9 +11,9 @@ import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class DueNotificationActivityImplTest {
+class PreDoAllotmentActivityImplTest {
 
-  @InjectMocks private DueNotificationActivityImpl orderReleaseActivity;
+  @InjectMocks private PreDoAllotmentActivityImpl orderReleaseActivity;
 
   @Mock private JomsApi jomsApi;
 

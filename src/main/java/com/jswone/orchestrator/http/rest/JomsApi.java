@@ -50,22 +50,39 @@ public class JomsApi {
     return response.getBody();
   }
 
-  public CustomerPendingPreDoResponse fetchPendingPrePO(String gstin, Integer dueInDays) {
-    log.info("Calling joms to fetch pending pre-do  {}", gstin);
-    String baseUrl =
-        jomsBaseUrl
-            .concat(externalApi.getServices().get("joms").get("fetch-pending-pre-do"))
-            .concat("/" + gstin);
+  public EligibleFinishedGoodsResponse fetchEligibleFgUpdatesForPreDoAllotment() {
+    log.info("Calling joms to fetch eligible FG updates for pre-do allotment");
+    String url =
+        UriComponentsBuilder.fromHttpUrl(
+                jomsBaseUrl.concat(
+                    externalApi.getServices().get("joms").get("fetch-pending-pre-do")))
+            .toUriString();
 
-    UriComponentsBuilder builder =
-        UriComponentsBuilder.fromHttpUrl(baseUrl).queryParam("dueInDays", dueInDays);
+    EligibleFinishedGoodsResponse response =
+        this.httpCall(url, HttpMethod.GET, null, EligibleFinishedGoodsResponse.class);
 
-    HttpEntity<Void> httpEntity = new HttpEntity<>(this.getHeaders());
-    String url = builder.toUriString();
-    CustomerPendingPreDoResponse response =
-        this.httpCall(url, HttpMethod.GET, httpEntity, CustomerPendingPreDoResponse.class);
-
-    log.info("Response received from joms {}", response.toString());
+    if (response == null) {
+      log.warn("Received null response from joms for fetch-pending-pre-do");
+      return null;
+    }
+    log.info(
+        "Response received from joms: records={}",
+        response.getRecords() == null ? 0 : response.getRecords().size());
     return response;
+  }
+
+  public AttachPreDoResponse processFgUpdateForPreDoAllotment(
+      EligibleFinishedGoodsResponse.FinishedGoodsRecord finishedGoodsRecord) {
+    log.info(
+        "Calling Joms service to attach pre-do to FG update, fgUpdateId={}",
+        finishedGoodsRecord.getId());
+    AttachPreDoRequest attachPreDoRequest =
+        AttachPreDoRequest.builder().finishedGoodsUpdateId(finishedGoodsRecord.getId()).build();
+    String url =
+        UriComponentsBuilder.fromHttpUrl(
+                jomsBaseUrl.concat(externalApi.getServices().get("joms").get("attach-pre-do")))
+            .toUriString();
+
+    return this.httpCall(url, HttpMethod.POST, attachPreDoRequest, AttachPreDoResponse.class);
   }
 }
