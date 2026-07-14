@@ -28,15 +28,7 @@ public class PreDoAllotmentServiceImpl implements PreDoAllotmentService {
   public OrchestratorResponse initiateFgPreDoAllotmentScheduler() {
     log.info("Workflow to be triggered for initiateFgPreDoAllotmentScheduler");
     String workflowId = "fg-pre-do-allotment-" + LocalDate.now();
-    WorkflowOptions options =
-        WorkflowOptions.newBuilder()
-            .setTaskQueue(temporalTaskQueue)
-            .setWorkflowId(workflowId)
-            .setWorkflowIdReusePolicy(
-                WorkflowIdReusePolicy.WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE_FAILED_ONLY)
-            .setWorkflowExecutionTimeout(Duration.ofMinutes(30))
-            .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(1).build())
-            .build();
+    WorkflowOptions options = buildWorkflowOptions(workflowId);
 
     PreDoAllotmentWorkflow workflowStub =
         workflowClient.newWorkflowStub(PreDoAllotmentWorkflow.class, options);
@@ -54,5 +46,20 @@ public class PreDoAllotmentServiceImpl implements PreDoAllotmentService {
         .isSuccess(true)
         .message("Workflow started successfully")
         .build();
+  }
+
+  public WorkflowOptions buildWorkflowOptions(String workflowId) {
+    return WorkflowOptions.newBuilder()
+        .setTaskQueue(temporalTaskQueue)
+        .setWorkflowId(workflowId)
+        .setWorkflowIdReusePolicy(
+            WorkflowIdReusePolicy.WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE_FAILED_ONLY)
+        .setWorkflowExecutionTimeout(Duration.ofMinutes(30))
+        .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(1).build())
+        .build();
+  }
+
+  public String getTemporalTaskQueue() {
+    return temporalTaskQueue;
   }
 }

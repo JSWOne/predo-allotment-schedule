@@ -2,12 +2,10 @@ package com.jswone.orchestrator.jobs.orderRelease.activity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.jswone.orchestrator.config.pubsub.PubSubGateway;
 import com.jswone.orchestrator.dto.*;
 import com.jswone.orchestrator.http.rest.JomsApi;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Slf4j
@@ -15,8 +13,6 @@ import org.springframework.stereotype.Component;
 public class PreDoAllotmentActivityImpl implements PreDoAllotmentActivity {
 
   private final JomsApi jomsApi;
-
-  @Autowired private PubSubGateway pubSubGateway;
 
   private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 

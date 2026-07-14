@@ -9,6 +9,8 @@ temporal:
   server-base-url: ${TEMPORAL-BASE-URL:}
   namespace: ${TEMPORAL-NAMESPACE:fg-pre-do-allotment}
   pre-do-allotment-task-queue: ${FG-PRE-DO-ALLOTMENT-QUEUE:fg-pre-do-allotment-task-queue}
+  schedules:
+    pre-do-allotment-cron: ${PRE-DO-ALLOTMENT-CRON:0 * * * *}
 
 external-service:
   joms:

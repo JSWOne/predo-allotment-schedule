@@ -2,6 +2,8 @@ package com.jswone.orchestrator.config;
 
 import io.temporal.client.WorkflowClient;
 import io.temporal.client.WorkflowClientOptions;
+import io.temporal.client.schedules.ScheduleClient;
+import io.temporal.client.schedules.ScheduleClientOptions;
 import io.temporal.serviceclient.WorkflowServiceStubs;
 import io.temporal.serviceclient.WorkflowServiceStubsOptions;
 import io.temporal.worker.WorkerFactory;
@@ -34,5 +36,12 @@ public class Temporal {
   @Bean
   public WorkerFactory workerFactory(WorkflowClient workflowClient) {
     return WorkerFactory.newInstance(workflowClient);
+  }
+
+  @Bean
+  public ScheduleClient scheduleClient(WorkflowServiceStubs workflowServiceStubs) {
+    return ScheduleClient.newInstance(
+        workflowServiceStubs,
+        ScheduleClientOptions.newBuilder().setNamespace(temporalNameSpace).build());
   }
 }
