@@ -4,11 +4,11 @@ spring:
   profiles:
     active:  ${PROFILE}
   application:
-    name: due-notification-workflow
+    name: predo-allotment-schedule
 server:
-  port: 8080
+  port: 8081
   servlet:
-    context-path: /due-notification-workflow
+    context-path: /predo-allotment-schedule
 http:
   connection:
     read-timeout: 50000

@@ -19,7 +19,7 @@ import org.springframework.context.event.EventListener;
 @Slf4j
 public class DueNotificationWorker {
 
-  @Value("${temporal.due-notification-task-queue}")
+  @Value("${temporal.pre-do-allotment-task-queue}")
   private String temporalTaskQueue;
 
   private final PreDoAllotmentActivityImpl preDoAllotmentActivityImpl;

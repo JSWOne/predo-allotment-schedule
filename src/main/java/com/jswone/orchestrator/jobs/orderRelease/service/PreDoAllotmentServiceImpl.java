@@ -9,6 +9,8 @@ import io.temporal.client.WorkflowOptions;
 import io.temporal.common.RetryOptions;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +29,7 @@ public class PreDoAllotmentServiceImpl implements PreDoAllotmentService {
   @Override
   public OrchestratorResponse initiateFgPreDoAllotmentScheduler() {
     log.info("Workflow to be triggered for initiateFgPreDoAllotmentScheduler");
-    String workflowId = "fg-pre-do-allotment-" + LocalDate.now();
+    String workflowId = "fg-pre-do-allotment-" + LocalDateTime.now();
     WorkflowOptions options = buildWorkflowOptions(workflowId);
 
     PreDoAllotmentWorkflow workflowStub =
@@ -54,6 +56,16 @@ public class PreDoAllotmentServiceImpl implements PreDoAllotmentService {
         .setWorkflowId(workflowId)
         .setWorkflowIdReusePolicy(
             WorkflowIdReusePolicy.WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE_FAILED_ONLY)
+        .setWorkflowExecutionTimeout(Duration.ofMinutes(30))
+        .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(1).build())
+        .build();
+  }
+
+  // Schedules manage ID reuse internally; WorkflowIdReusePolicy must not be set here.
+  public WorkflowOptions buildScheduledWorkflowOptions(String workflowId) {
+    return WorkflowOptions.newBuilder()
+        .setTaskQueue(temporalTaskQueue)
+        .setWorkflowId(workflowId)
         .setWorkflowExecutionTimeout(Duration.ofMinutes(30))
         .setRetryOptions(RetryOptions.newBuilder().setMaximumAttempts(1).build())
         .build();

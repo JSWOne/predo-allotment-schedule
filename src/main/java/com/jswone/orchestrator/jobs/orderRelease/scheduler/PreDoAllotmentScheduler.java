@@ -43,7 +43,7 @@ public class PreDoAllotmentScheduler {
                   ScheduleActionStartWorkflow.newBuilder()
                       .setWorkflowType(PreDoAllotmentWorkflow.class)
                       .setOptions(
-                          preDoAllotmentService.buildWorkflowOptions(
+                          preDoAllotmentService.buildScheduledWorkflowOptions(
                               "fg-pre-do-allotment-scheduled"))
                       .build())
               .build(),

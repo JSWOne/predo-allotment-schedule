@@ -7,7 +7,7 @@ spring:
 
 temporal:
   server-base-url: ${TEMPORAL-BASE-URL:preprod-payment-orchestrator-temporal-frontend.temporal.svc.cluster.local:7233}
-  namespace: ${TEMPORAL-NAMESPACE:fg-pre-do-allotment}
+  namespace: ${TEMPORAL-NAMESPACE:default}
   pre-do-allotment-task-queue: ${FG-PRE-DO-ALLOTMENT-QUEUE:fg-pre-do-allotment-task-queue}
   schedules:
     pre-do-allotment-cron: ${PRE-DO-ALLOTMENT-CRON:0 0 * * *}
