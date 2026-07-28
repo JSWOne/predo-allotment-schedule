@@ -13,6 +13,23 @@ http:
   connection:
     read-timeout: 50000
     server-connect-timeout: 2000
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health
+
+    endpoint:
+      health:
+        probes:
+          enabled: true
+        show-details: always
+
+    health:
+      livenessstate:
+        enabled: true
+      readinessstate:
+        enabled: true
 
 
 
