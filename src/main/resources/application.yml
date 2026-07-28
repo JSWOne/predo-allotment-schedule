@@ -6,7 +6,7 @@ spring:
   application:
     name: predo-allotment-schedule
 server:
-  port: 8081
+  port: 8080
   servlet:
     context-path: /predo-allotment-schedule
 http:
