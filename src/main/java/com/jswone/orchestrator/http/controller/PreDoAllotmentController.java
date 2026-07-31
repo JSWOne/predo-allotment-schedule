@@ -22,4 +22,10 @@ public class PreDoAllotmentController {
         preDoAllotmentService.initiateFgPreDoAllotmentScheduler();
     return ResponseEntity.ok(orchestratorResponse);
   }
+
+  @PostMapping(value = "/healthcheck")
+  public ResponseEntity<String> healthcheck() {
+    log.info("Request for health check");
+    return ResponseEntity.ok("health check success");
+  }
 }

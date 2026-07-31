@@ -11,12 +11,14 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
         </processorPath>
         <module name="orchestrator" />
+        <module name="due-notification" />
         <module name="order-release" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="due-notification" options="-parameters" />
       <module name="orchestrator" options="-parameters" />
       <module name="order-release" options="-parameters" />
     </option>
