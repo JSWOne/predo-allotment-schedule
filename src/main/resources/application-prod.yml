@@ -9,8 +9,10 @@ temporal:
   server-base-url: ${TEMPORAL-BASE-URL}
   namespace: ${TEMPORAL-NAMESPACE}
   pre-do-allotment-task-queue: ${FG-PRE-DO-ALLOTMENT-QUEUE:fg-pre-do-allotment-task-queue}
+  due-notification-task-queue: ${DUE-NOTIFICATION-QUEUE:fg-pre-do-allotment-task-queue}
   schedules:
     pre-do-allotment-cron: ${PRE-DO-ALLOTMENT-CRON:0 0 * * *}
+    auto-so-closure-cron: ${AUTO-SO-CLOSURE-CRON:0 0 * * *}
 
 external-service:
   joms:
