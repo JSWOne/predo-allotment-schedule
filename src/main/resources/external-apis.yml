@@ -2,3 +2,5 @@ services:
   joms:
     fetch-pending-pre-do: /internal/v1/finished-goods/fetch-eligible-for-pre-do
     attach-pre-do: /internal/v1/finished-goods/attach-pre-do-to-fg
+    stale-open-so: /internal/v1/so-listing/stale-open-so
+    update-stale-open-so: /internal/v1/so-listing/update-stale-open-so

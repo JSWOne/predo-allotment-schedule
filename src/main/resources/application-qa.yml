@@ -6,16 +6,15 @@ spring:
         orchestrator-to-notification: ${NOTIFICATION-PUBSUB-TOPIC:notification-request-queue}
 
 temporal:
-  server-base-url: ${TEMPORAL-BASE-URL:localhost:7233}
-  namespace: ${TEMPORAL-NAMESPACE:default}
+  server-base-url: ${TEMPORAL-BASE-URL}
+  namespace: ${TEMPORAL-NAMESPACE:fg-pre-do-allotment}
   pre-do-allotment-task-queue: ${FG-PRE-DO-ALLOTMENT-QUEUE:fg-pre-do-allotment-task-queue}
+  due-notification-task-queue: ${DUE-NOTIFICATION-QUEUE:fg-pre-do-allotment-task-queue}
   schedules:
-    pre-do-allotment-cron: ${PRE-DO-ALLOTMENT-CRON:0 0 * * *}
+    pre-do-allotment-cron: ${PRE-DO-ALLOTMENT-CRON:0 * * * *}
+    auto-so-closure-cron: ${AUTO-SO-CLOSURE-CRON:* * * * *}
 
 external-service:
   joms:
-    base-url: ${JOMS-BASE-URL:http://localhost:8080/joms/api}
+    base-url: ${JOMS-BASE-URL:https://qa-oms.msme.jswone.in/joms/api}
     api-key:  ${JOMS-API-KEY:3f9a2b5f-7bd8-4a51-b11f-47b30decd925}
-
-
-

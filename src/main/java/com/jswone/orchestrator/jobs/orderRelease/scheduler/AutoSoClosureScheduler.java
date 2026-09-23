@@ -1,6 +1,6 @@
 package com.jswone.orchestrator.jobs.orderRelease.scheduler;
 
-import com.jswone.orchestrator.jobs.orderRelease.workflow.PreDoAllotmentWorkflow;
+import com.jswone.orchestrator.jobs.orderRelease.workflow.AutoSoClosureWorkflow;
 import io.temporal.client.WorkflowOptions;
 import io.temporal.client.schedules.Schedule;
 import io.temporal.client.schedules.ScheduleActionStartWorkflow;
@@ -20,36 +20,36 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class PreDoAllotmentScheduler {
+public class AutoSoClosureScheduler {
 
-  private static final String SCHEDULE_ID = "fg-pre-do-allotment-daily";
+  private static final String SCHEDULE_ID = "auto-so-closure-daily";
 
   private final ScheduleClient scheduleClient;
 
-  @Value("${temporal.schedules.pre-do-allotment-cron}")
-  private String preDoAllotmentCron;
+  @Value("${temporal.schedules.auto-so-closure-cron}")
+  private String autoSoClosureCron;
 
   @Value("${temporal.pre-do-allotment-task-queue}")
   private String taskQueue;
 
   @PostConstruct
   public void registerSchedule() {
-    log.info("Registering Temporal schedule '{}' with cron '{}'", SCHEDULE_ID, preDoAllotmentCron);
+    log.info("Registering Temporal schedule '{}' with cron '{}'", SCHEDULE_ID, autoSoClosureCron);
     try {
       scheduleClient.createSchedule(
           SCHEDULE_ID,
           Schedule.newBuilder()
               .setSpec(
                   ScheduleSpec.newBuilder()
-                      .setCronExpressions(Collections.singletonList(preDoAllotmentCron))
+                      .setCronExpressions(Collections.singletonList(autoSoClosureCron))
                       .build())
               .setAction(
                   ScheduleActionStartWorkflow.newBuilder()
-                      .setWorkflowType(PreDoAllotmentWorkflow.class)
+                      .setWorkflowType(AutoSoClosureWorkflow.class)
                       .setOptions(
                           WorkflowOptions.newBuilder()
                               .setTaskQueue(taskQueue)
-                              .setWorkflowId("fg-pre-do-allotment-scheduled")
+                              .setWorkflowId("auto-so-closure-scheduled")
                               .setWorkflowExecutionTimeout(Duration.ofMinutes(30))
                               .setRetryOptions(
                                   RetryOptions.newBuilder().setMaximumAttempts(1).build())
