@@ -1,7 +1,9 @@
 package com.jswone.orchestrator.jobs.orderRelease.worker;
 
+import com.jswone.orchestrator.jobs.orderRelease.activity.AutoSoClosureActivityImpl;
 import com.jswone.orchestrator.jobs.orderRelease.activity.PreDoAllotmentActivityImpl;
 import com.jswone.orchestrator.jobs.orderRelease.activity.PreDoAllotmentChildActivityImpl;
+import com.jswone.orchestrator.jobs.orderRelease.workflow.AutoSoClosureWorkflowImpl;
 import com.jswone.orchestrator.jobs.orderRelease.workflow.PreDoAllotmentChildWorkflowImpl;
 import com.jswone.orchestrator.jobs.orderRelease.workflow.PreDoAllotmentWorkflowImpl;
 import io.temporal.worker.Worker;
@@ -24,15 +26,18 @@ public class DueNotificationWorker {
 
   private final PreDoAllotmentActivityImpl preDoAllotmentActivityImpl;
   private final PreDoAllotmentChildActivityImpl preDoAllotmentChildActivityImpl;
+  private final AutoSoClosureActivityImpl autoSoClosureActivityImpl;
   private final WorkerFactory workerFactory;
 
   @PostConstruct
   public void registerWorker() {
     Worker worker = workerFactory.newWorker(temporalTaskQueue);
     worker.registerWorkflowImplementationTypes(
-        PreDoAllotmentWorkflowImpl.class, PreDoAllotmentChildWorkflowImpl.class);
+        PreDoAllotmentWorkflowImpl.class,
+        PreDoAllotmentChildWorkflowImpl.class,
+        AutoSoClosureWorkflowImpl.class);
     worker.registerActivitiesImplementations(
-        preDoAllotmentActivityImpl, preDoAllotmentChildActivityImpl);
+        preDoAllotmentActivityImpl, preDoAllotmentChildActivityImpl, autoSoClosureActivityImpl);
     log.info("Registered workflows and activities on queue: {}", temporalTaskQueue);
   }
 
